@@ -12,8 +12,12 @@
     </header>
     <nav>
         <ul>
-            <li>Generar</li>
-        </ul>        
+            <li>
+                <a href="{{route('cursos.index')}}">
+                    Cursos
+                </a>
+            </li>
+        </ul>         
     </nav>
     @yield('content')
     <footer>
