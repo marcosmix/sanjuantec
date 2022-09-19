@@ -35,15 +35,15 @@
         {{$datos['curso']['fecha']}}
     </div>
     <div class="firmas">
-        <img class="firma" src="" >
+        <img class="firma" src="{{asset('img/f1.jpg')}}" >
         <div class="edicion">
-            <img class="edicion__logo" src="" >
-            <img class="edicion__anio" src="" >
+            <img class="edicion__logo" src="{{asset('img/logo_sjt.png')}}" >
+            <img class="edicion__anio" src="{{asset('img/2022.png')}}" >
         </div>
-        <img class="firma" src="" >
+        <img class="firma" src="{{asset('img/f2.jpg')}}" >
     </div>
     <div class="institucional">
-        <img src="" alt="">
+        <img src="{{asset('img/logos_gobierno.png')}}">
     </div>
 </div>
 </body>
