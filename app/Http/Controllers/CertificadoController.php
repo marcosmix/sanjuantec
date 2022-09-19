@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Models\Curso;
 
 use App\helpers\pdf;
+
+use function Termwind\terminal;
+
 class CertificadoController extends Controller{
  
     use pdf;
@@ -28,6 +31,24 @@ class CertificadoController extends Controller{
 
     public function GenerarRutaPDF($curso,$estudiante){
         return "certificados/".$curso['nombre']."/".strval($estudiante['dni']).".pdf";
+    }
+
+    public function testearVistaPDF(){
+        $datos =["estudiante"=> [
+                                    'nombre' => "Marcos",
+                                    'apellido' => "Caballero",
+                                    'dni' => "35849098"
+                                ],
+                "curso"=>['texto'=>'ha participado del curso teorico-practico demonomidado',
+                        'duracion'=>'con una duracion de 3 meces',
+                        'subprograma'=>'perteneciente al sub programa Talento Tec',
+                        'nombre'=>'Fundamentos de Laravel',
+                        'fecha'=>'San Juan a los 25 dias de Abril de 2022']
+    ];
+
+        
+
+        return view('certificados.modelo1',compact('datos'));
     }
 
     public function procesarEstudiantes($curso, $listado){
