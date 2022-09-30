@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 1280px;
+    height: 888px;
+    background-image: url('./img/índice10.jpg');
+}

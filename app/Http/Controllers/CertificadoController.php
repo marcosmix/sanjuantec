@@ -8,13 +8,13 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Models\Curso;
 
-use App\helpers\pdf;
+use App\helpers\gpdf;
 
 use function Termwind\terminal;
 
 class CertificadoController extends Controller{
  
-    use pdf;
+    use gpdf;
     public function index($curso_id){
         $curso=Curso::find($curso_id);
         return view('certificados.index',compact('curso'));
@@ -44,11 +44,13 @@ class CertificadoController extends Controller{
                         'subprograma'=>'perteneciente al sub programa Talento Tec',
                         'nombre'=>'Fundamentos de Laravel',
                         'fecha'=>'San Juan a los 25 dias de Abril de 2022']
-    ];
 
-        
+                ];
 
-        return view('certificados.modelo1',compact('datos'));
+        $this->generarPDF([],
+            'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante'])
+        );
+        return view('certificados.mod1',compact('datos'));
     }
 
     public function procesarEstudiantes($curso, $listado){
@@ -58,7 +60,7 @@ class CertificadoController extends Controller{
                'dni' => $estudiante[2]];
 
             $this->generarPDF(['estudiante'=>$e,'curso'=>$curso],
-                               'certificados.modelo1',
+                               'certificados.mod1',
                                true,
                                $this->GenerarRutaPDF($curso,$e));
         }
