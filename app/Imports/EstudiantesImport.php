@@ -13,9 +13,11 @@ class EstudiantesImport implements ToModel
     public function model(array $row)
     {
         return new Estudiante([
-            'nombre'=>$row[0],
-            'apellido'=>$row[1],
-            'dni'=>$row[2]
+            'nombre' => $row[0],
+            'apellido' => $row[1],
+            'dni' => $row[2],
+            'celular' => $row[3],
+            'email' => $row[4],
         ]);
     }
 }

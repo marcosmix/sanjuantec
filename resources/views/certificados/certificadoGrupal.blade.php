@@ -132,35 +132,31 @@
 </head>
 <body>
     <div class="container">
-        <p class="titular" >Curso de {{$datos['curso']['nombre']}}</p>
+        <p class="titular" >JAM DE DESARROLLO DE SOFTWARE 2022</p>
         
         <p class="prefijo" >Por el presente certificamos que</p>
         
-        
-        <p class="datosAlumno">
-            <span class="datosAlumno__nombre">{{$datos['estudiante']['nombre']}} {{$datos['estudiante']['apellido']}}</span>
-            
-            <span class="datosAlumno__dni"> DNI {{$datos['estudiante']['dni']}}</span>
-        </p>
+               
         <section class="contenedor-texto">
-            <p>{{$datos['curso']['texto']}} {{$datos['curso']['nombre']}}, con una duración de {{$datos['curso']['duracion']}}, perteneciente <span id="nombre_subprograma">{{$datos['curso']['bloque']}}</span>, organizado por San Juan Tec 2022.</p>
-            <p>San Juan a los {{$datos['curso']['fecha']}}.</p>
+           Desarrolladores pertenecientes a San Juan Tec y representantes del proyecto de {{$datos['nombre_proyecto']}},
+            participaron en conjunto en la Jam edición 2022, organizada por San Juan Tec con una duración de dos semanas, en la cual,
+             desarrollaron de forma intensiva una solución informática.  
         </section>
             
-        
+        <br><br><br><br><br><br><br><br>
         
         <div class="logosTec">
             <br><br>
-            <img class="logosTec__firmaI" src="img/ariel_lucero.jpg" alt="">
+            <img class="logosTec__firmaI" src="img/f12.jpg" alt="">
 
             <img class="edicion" src="img/20222.jpg" alt="">
 
-            <img class="logosTec__firmaD" src="img/daniel_gimeno.jpg" alt="">
+            <img class="logosTec__firmaD" src="img/f22.jpg" alt="">
         </div>
 
         
          <div class="logossj">
-            <br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br>
             <img class="logos" src="img/logos-sj.png" alt="">
         </div>
         

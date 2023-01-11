@@ -17,9 +17,8 @@ class CursosController extends Controller
     }
 
    
-    public function create()
-    {
-        //
+    public function create(){
+        
     }
 
     public function store(Request $request){
@@ -28,52 +27,25 @@ class CursosController extends Controller
         $nuevo_curso->create([
             'nombre'=>$request->nombre,
             'texto'=>$request->texto,
+            'duracion'=> $request->duracion,
+            'fecha'=> $request->fecha,
+            'bloque' => $request->bloque,
             'programa_id'=>$request->programa_id
         ]);
 
         return redirect(route('cursos.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Curso $curso)
-    {
-        //
+    
+    public function show(Curso $curso){
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Curso $curso)
-    {
-        //
+    public function edit(Curso $curso){
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Curso $curso)
-    {
-        //
+    public function update(Request $request, Curso $curso){
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Curso $curso){
         $curso->delete();
         return redirect(route('cursos.index'));

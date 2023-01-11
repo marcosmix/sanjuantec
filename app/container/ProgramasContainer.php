@@ -17,6 +17,16 @@ class ProgramasContainer{
     static function ver($i){
         return self::$programas[$i-1];
     }
+
+    static function verNombreProID($id){
+        $respuesta='error';
+        foreach(self::$programas as $programa){
+            if($programa['id']==$id)
+                $respuesta=$programa['nombre'];
+        }
+
+        return $respuesta;
+    }
 }
 
 ?>

@@ -1,42 +1,41 @@
 @extends('base')
 @section('content')
+<style>
+    .contenedor{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top:30px;
+        flex-wrap: wrap;
+    }
+    .content-btn{
+        display: flex;
+        justify-content: center;
+    }
 
-<div>
-    @foreach ($cursos as $curso)
-    <div class="card">
-        <h2>{{$curso->nombre}}</h2>
-        <h3>{{$curso->programa()}}</h3>
-        <p>{{$curso->texto}}</p>
+    .btn-crear{
+        background: #eb8025;
+        color: white;
+        font-weight: 600;
+    }
+    
 
-        <div>
-            <form action="{{route('cursos.destroy',$curso)}}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button>Eliminar</button>
-            </form>
-            <a href="{{route('generarCertificados',$curso->id)}}">Generar certificados</a>
-        </div>
+</style>
+ <div id="inicio" class="content-btn">
+        <a href="#crear"  class="btn btn-crear"> AGREGAR NUEVO CURSO</a>
     </div>
+<div class="contenedor">
+   
+    @foreach ($cursos as $curso)
+        @include('cursos.cardCurso')
     @endforeach
     
 </div>
-<div>
-    <form action="{{route('cursos.store')}}" method="POST">
-        @csrf
-        <div>
-            <label for="nombre">Nombre del Curso</label>
-            <input type="text" name="nombre" id="nombre">
-        </div>
-        <div>
-            <label for="texto">Texto del certificado</label>
-            <input type="text" name="texto" id="texto">
-        </div>
-        <select name="programa_id" id="programa">
-            @foreach ($programas as $p)
-                <option value="{{$p['id']}}">{{$p['nombre']}}</option>
-            @endforeach
-        </select>
-        <button type="submit">Guardar</button>
-    </form>
+<div id="crear">
+    @include('cursos.create')
+</div>
+
+<div class="content-btn">
+       <a href="#inicio" class="btn btn-crear"> VOLVER </a>
 </div>
 @endsection

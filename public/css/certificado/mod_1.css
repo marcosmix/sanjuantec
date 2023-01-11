@@ -1,10 +1,130 @@
-* {
-    margin: 0;
-    padding: 0;
-}
+  @font-face {
+      font-family: Brokman-Medium;
+      src: url('../fonts/Brokman-Medium.otf');
+  }
 
-.container {
-    width: 1280px;
-    height: 888px;
-    background-image: url('./img/índice10.jpg');
-}
+  @font-face {
+      font-family: Brokman-BoldItalic;
+      src: url('../fonts/Brokman-BoldItalic.otf');
+  }
+
+  @font-face {
+      font-family: Brokman-ExtraBold;
+      src: url('../fonts/Brokman-Extrabold.otf');
+  }
+
+  @font-face {
+      font-family: calibri;
+      src: url('../fonts/calibri.ttf');
+  }
+
+  @font-face {
+      font-family: GreatVibes-Regular;
+      src: url('../fonts/GreatVibes-Regular.ttf');
+  }
+
+ * {
+      margin: 0;
+      padding: 0;
+  }
+
+  .container {
+      width: 30cm;
+      height: 21px;
+      padding-top: 70px;
+      background-image: url('./img/bg.jpg');
+      background-repeat: no-repeat;
+      background-size: contain;;
+
+  }
+
+  h1 {
+      font-family: Brokman-Medium;
+      color: #9c3234;
+      font-size: 35px;
+      padding: 0 0 20px 120px;
+  }
+
+  h1 span {
+      font-family: Brokman-Medium;
+      color: #9c3234;
+      font-size: 35px !important;
+  }
+
+  p,
+  h2,
+  span {
+      font-family: calibri;
+      font-size: 26px !important;
+      color: #3a3a3a;
+      line-height: 1.8;
+  }
+
+  p {
+      width: 850px;
+      margin-left: 200px;
+      padding: 0 20px;
+  }
+
+  .datos {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+  }
+
+  .datos::after {
+      content: '';
+      width: 100%;
+      height: 2px;
+      background: #e5b465;
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      opacity: 0.6;
+  }
+
+  #nombre_alumno {
+      display: inline-block;
+      font-family: GreatVibes-Regular;
+      font-size: 60px !important;
+      text-align: left !important;
+      margin: 0 auto;
+  }
+
+  .logos_tec {
+      width: 850px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .logos_tec img {
+      width: 140px;
+  }
+
+  .logos_tec img:nth-child(1) {
+      margin-top: 30px;
+  }
+
+  .logos_column {
+      width: 200px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .logos_column img {
+      width: 100%;
+  }
+
+  .logossj {
+      margin-top: 40px;
+      text-align: center;
+  }
+
+  .logossj img {
+      height: 49px;
+  }

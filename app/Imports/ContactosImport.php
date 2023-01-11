@@ -18,9 +18,9 @@ class ContactosImport implements ToModel
         return new Contacto([
                 'nombre'=>$row[0],
                 'apellido'=>$row[1],
-                'celular' => $row[2],
-                'email'=>$row[3],
-                'curso' => $row[4],
+                'dni' => $row[2],
+                'celular' => $row[3],
+                'email'=>$row[4],
         ]);
     }
 }
