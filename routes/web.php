@@ -25,6 +25,8 @@ Route::post('/generarCertificadoJam',[CertificadoController::class, 'generarCert
 Route::post('/importarContactos',[ContactoController::class, 'importarContactos'])->name('importarContactos');
 
 Route::get('/enviarMails',[DifusionController::class,'enviarMails'])->name('enviarMail');
+Route::get('/EnviarMensaje',[DifusionController::class,'enviarMensaje'])->name('difusion.EnviarMensaje');
+Route::post('/EnviarMensaje',[DifusionController::class,'EnviarMensajePOST'])->name('difusion.EnviarMensajePOST');
 
 Route::get('/testearPDF',[CertificadoController::class, 'testearVistaPDF']);
 

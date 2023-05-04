@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Curso;
 use App\helpers\gpdf;
 use App\helpers\rutas;
+use App\Imports\CertificadosEspImport;
 use App\Imports\ProyectosImport;
-
+use App\Models\CertificadoEspecial;
 use App\container\ProgramasContainer;
 
 class CertificadoController extends Controller{
@@ -101,9 +102,22 @@ class CertificadoController extends Controller{
     }
     
     public function generarCertificadoEspeciales(Request $request){
+        $listado = (new CertificadosEspImport)->toArray($request->file('listado'))[0];
+        $datos_fijos= array_intersect_key($request->all(),array_flip(['bloque_organizacion', 'fecha']));
 
-        dd($request);
+        if($request->firmas=='on'){
+            
+            foreach($listado as $item){
+                $this->generarPDF(
+                    CertificadoEspecial::normalizarDatos($item,$datos_fijos),
+                    'certificados.certificadoEspecial',
+                    true,
+                    $this->GenerarRutaPDFv2('especiales', $item[1].$item[3])
+                );
+            }
 
+            
+        }
 
     }
 }

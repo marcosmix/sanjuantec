@@ -8,6 +8,11 @@ trait rutas{
         return $this->raiz. $curso['nombre'] . "\\" . strval($estudiante['dni']) . ".pdf";
     }
 
+    public function GenerarRutaPDFv2($carpeta, $pdf){
+        return $this->raiz . $carpeta . "\\" .$pdf. ".pdf";
+    }
+
+
     public function RutaCarpetaStoragePublic($curso, $estudiante){
         return 'storage'."\\".$this->raiz . $curso['nombre'].'\\' . strval($estudiante['dni']) . ".pdf";
     }

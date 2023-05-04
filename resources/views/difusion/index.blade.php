@@ -4,7 +4,7 @@
         <a href="#">
             <h3>Importar contactos</h3>
         </a>
-        <a href="#">
+        <a href="{{ route('difusion.EnviarMensaje') }}">
             <h3>Difundir mensaje</h3>
         </a>
         <a href="{{route('difusion.ImportarAprobados')}}">

@@ -6,10 +6,11 @@ use App\Models\Curso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\helpers\MailTec;
-
 use App\helpers\rutas;
 use App\Imports\EstudiantesImport;
+use App\Imports\CursatecImport;
 use App\container\MensajesContainer;
+use App\Imports\CursatecImportFULL;
 class DifusionController extends Controller
 {
     use rutas;
@@ -18,10 +19,27 @@ class DifusionController extends Controller
         return view('difusion.index');
     }
 
+    
+    public function EnviarMensajePOST(Request $request){
+
+        $listado = (new CursatecImportFULL)->toArray($request->file('contactos'));
+        foreach($listado[0] as $estudiante){
+            dump($estudiante);
+            MailTec::EnviarCuentasCursatec($this->rowToArrayCursatecCuentas($estudiante));
+        }
+ 
+       return redirect()->back();
+    }
+    public function EnviarMensaje(){
+        return view('difusion.mensajes');
+    }
+
     public function CargarContactos(){
         $cursos=Curso::all();
         return view('difusion.enviarCertificados',compact('cursos'));
     }
+
+
     
     public function EnviarCertificados(Request $request){
         $listado = (new EstudiantesImport)->toArray(request()->file('contactos'));
@@ -40,6 +58,15 @@ class DifusionController extends Controller
                 'apellido'=>$estudiante[1],
                 'dni'=>$estudiante[2],
                 'email' => $estudiante[4],
+        ];
+    }
+
+    public function rowToArrayCursatecCuentas($estudiante){
+        return [
+                'nombre'=>$estudiante[3],
+                'user'=>$estudiante[0],
+                'pass'=>$estudiante[1],
+                'email' => $estudiante[2],
         ];
     }
    

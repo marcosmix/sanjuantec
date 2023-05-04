@@ -16,8 +16,8 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label" for="fecha">Bloque y organizacion (3)</label>
-            <input type="text" class='form-control' name="bloque" id="fecha">
+            <label class="form-label" for="bloque_organizacion">Bloque y organizacion (3)</label>
+            <input type="text" class='form-control' name="bloque_organizacion" id="bloque_organizacion">
         </div>
         <div class="mb-3">
             <p>Listado de alumnos</p>

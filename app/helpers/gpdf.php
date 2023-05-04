@@ -9,8 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 trait gpdf{
     public function generarPDF($datos,$vista,$horizontal=false,$url){
-
- //inicio optimizar esta parte
+        //inicio optimizar esta parte
         $options = new Options();
         $options->set(['isRemoteEnabled'=> true]);
 

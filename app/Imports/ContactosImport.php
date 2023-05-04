@@ -8,11 +8,7 @@ use Maatwebsite\Excel\Row;
 
 class ContactosImport implements ToModel
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+   
     public function model(array $row)
     {
         return new Contacto([
