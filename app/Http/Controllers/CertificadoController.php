@@ -13,19 +13,18 @@ use App\Models\CertificadoEspecial;
 use App\container\ProgramasContainer;
 
 class CertificadoController extends Controller{
- 
+
     use gpdf,rutas;
-    
+
     public function index($curso_id){
         $curso=Curso::find($curso_id);
         return view('certificados.index',compact('curso'));
-    
     }
 
     public function generarCertificadoJam(Request $request)
     {
          $listado = (new ProyectosImport)->toArray($request->file('listado'));
-        
+
         foreach ($listado[0] as $nombre)
             $this->procesarCertificadosJam($nombre[0]);
 
@@ -34,13 +33,13 @@ class CertificadoController extends Controller{
 
 
     public function generar(Request $request){
-       // $listado=Excel::import(new EstudiantesImport,request()->file('listado')); 
+       // $listado=Excel::import(new EstudiantesImport,request()->file('listado'));
        $listado=(new EstudiantesImport)->toArray(request()->file('listado'));
 
        $curso=Curso::find($request->id)->toArray();
        $curso['subprograma']=ProgramasContainer::verNombreProID($curso['programa_id']);
        //    $curso=['nombre'=>$request->nombre,'texto'=>$request->texto];
-    
+
        $this->procesarEstudiantes($curso,$listado[0]);
        return redirect(route('cursos.index'));
     }
@@ -66,12 +65,12 @@ class CertificadoController extends Controller{
         // $this->generarPDF($datos,
         //     'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante'])
         // );
-       
+
         return view('certificados.mod1',compact('datos'));
     }
 
     public function procesarCertificadosJam($nombre_proyecto){
-        
+
 
         $this->generarPDF(
             ['nombre_proyecto' => $nombre_proyecto],
@@ -79,13 +78,13 @@ class CertificadoController extends Controller{
             true,
             'certificados\\jam\\'.
             $nombre_proyecto. ".pdf"
-            
+
         );
     }
 
     public function procesarEstudiantes($curso, $listado){
-        
-    
+
+
 
         foreach($listado as $estudiante){
             $e=['nombre'=> $estudiante[0],
@@ -96,17 +95,17 @@ class CertificadoController extends Controller{
                                'certificados.mod1',
                                true,
                                $this->GenerarRutaPDF($curso,$e));
-            
+
         }
-        
+
     }
-    
+
     public function generarCertificadoEspeciales(Request $request){
         $listado = (new CertificadosEspImport)->toArray($request->file('listado'))[0];
         $datos_fijos= array_intersect_key($request->all(),array_flip(['bloque_organizacion', 'fecha']));
 
         if($request->firmas=='on'){
-            
+
             foreach($listado as $item){
                 $this->generarPDF(
                     CertificadoEspecial::normalizarDatos($item,$datos_fijos),
@@ -116,7 +115,7 @@ class CertificadoController extends Controller{
                 );
             }
 
-            
+
         }
 
     }

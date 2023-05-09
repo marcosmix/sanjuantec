@@ -1,0 +1,83 @@
+/* Estilos de navbar */
+a,
+a:visited,
+a:hover {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+nav {
+	display: flex;
+	justify-content: stretch;
+	margin: 5px 0;
+	padding: 10px 9px;
+	background-color: #772f2f;
+	color: white;
+	height: 57px;
+	align-items: center;
+	position: relative
+}
+
+.opcion {
+	line-height: 60px;
+	margin-left: 18px;
+	padding: 15px 15px;
+	border-radius: 15px;
+	height: 30px;
+}
+
+.opcion:visited {
+	color: white;
+}
+
+.opcion:hover {
+	background-color: #846565;
+}
+
+.opcion img {
+	height: 28px;
+}
+
+/* Estilo de footer.  */
+footer {
+	padding: 10px;
+	text-align: center;
+}
+
+/* Estilo de header. */
+header {
+	display: flex;
+	justify-content: center;
+}
+
+/* Estilo de la sección content. */
+.content-section {
+	padding: 60px 50px;
+}
+
+/* Estilos de menú Crear Certificaciones (index-certificados.blade.php)  */
+.contenedor {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin-top: 30px;
+	flex-wrap: wrap;
+}
+
+.content-btn {
+	display: flex;
+	justify-content: center;
+}
+
+.btn-crear {
+	background: #eb8025;
+	color: white;
+	font-weight: 600;
+}
+
+.contenedor-center-column {
+	flex-direction: column;
+	height: 154px;
+	justify-content: space-around;
+	align-items: initial;
+}
