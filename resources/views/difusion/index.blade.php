@@ -1,14 +1,22 @@
 @extends('base')
 @section('content')
-    <section>
-        <a href="#">
-            <h3>Importar contactos</h3>
-        </a>
-        <a href="{{ route('difusion.EnviarMensaje') }}">
-            <h3>Difundir mensaje</h3>
-        </a>
-        <a href="{{route('difusion.ImportarAprobados')}}">
-            <h3>Enviar certificados</h3>
-        </a>
-    </section>
+<section>
+    <div class="contenedor contenedor-center-column">
+        <div class="content-btn">
+            <a class="btn btn-crear" href="#">
+            Importar contactos
+            </a>
+        </div>
+        <div class="content-btn">
+            <a class="btn btn-crear" href="{{ route('difusion.EnviarMensaje') }}">
+            Difundir mensaje
+            </a>
+        </div>
+        <div class="content-btn">
+            <a class="btn btn-crear" href="{{route('difusion.ImportarAprobados')}}">
+            Enviar certificados
+            </a>
+        </div>
+    </div>
+</section>
 @endsection
