@@ -10,14 +10,8 @@
     </head>
     <body>
         @include('menu')
-        <header>
-            <h1>SAN JUAN TEC</h1>
-        </header>
         <section class="content-section">
             @yield('content')
         </section>
-        <footer>
-            @marcodeev
-        </footer>
     </body>
 </html>
