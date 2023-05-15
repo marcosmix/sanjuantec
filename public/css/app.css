@@ -1,6 +1,11 @@
+/* Estilos */
+.centrar-texto {
+    text-align: center;
+}
+
 /* Estilos de cursor */
 .cursor-apuntador {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 /* Estilos de navbar */

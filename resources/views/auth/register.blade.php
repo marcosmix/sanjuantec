@@ -1,4 +1,9 @@
 @include('base')
+
+@if((isset($mensaje)) || (!empty($mensaje)))
+    <p class="centrar-texto">{{ $mensaje }}</p>
+@endif
+
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
@@ -33,7 +38,7 @@
                 <label for="role" class="block text-gray-700 font-bold mb-2">{{ __('Seleccionar rol') }}</label>
                 <select name="role" id="role" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                     <option value="usuario">Usuario</option>
-                    <option value="administrador">Secretario</option>
+                    <option value="secretario">Secretario</option>
                     <option value="administrador">Administrador</option>
                 </select>
             </div>
