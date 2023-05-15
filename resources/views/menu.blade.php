@@ -12,6 +12,12 @@
     </a>
   </div>
   <div>
+    <a class="opcion" href="{{route('register')}}">
+      <img src="{{asset('img/icons8-add-user-male-96.png')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Registrar usuario
+    </a>
+  </div>
+  <div>
     <form class="" method="POST" action="{{ route('logout') }}">
         @csrf
         <a class="cursor-apuntador opcion" :href="route('logout')"
