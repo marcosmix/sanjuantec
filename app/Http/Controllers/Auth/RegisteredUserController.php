@@ -4,23 +4,22 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Rol;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
-    protected $rol;
+    protected $user;
 
-    public function __construct()
+    public function __construct ()
     {
-        $this->rol = new Rol();
+        $this->user = new User();
     }
-
     /**
      * Display the registration view.
      *
@@ -44,15 +43,12 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'string', 'max:20']
+            'password' => ['required', 'confirmed', Rules\Password::defaults()]
         ]);
 
-        $role_id = $this->rol->determinarRolId($request->role);
 
         $user = User::create([
             'name' => $request->name,
-            'role_id' => $role_id,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
