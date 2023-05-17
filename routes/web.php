@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/generarCertificadoJam',[CertificadoController::class, 'generarCertificadoJam'])->name('generarCertificadoJam');
     // Menú 'Certificados' ↓
     Route::view('/certificados/index','certificados.index')->name('cursosInicio');
-    Route::view('/ceftificados/especiales', 'certificados.certificadosEspecialesExcel')->name('certificadosEspecialesIndex');
+    Route::view('/certificados/especiales', 'certificados.certificadosEspecialesExcel')->name('certificadosEspecialesIndex');
     Route::get('/cetificadoJAM',function(){
         return view('certificados.certificadoJAM');
     });
