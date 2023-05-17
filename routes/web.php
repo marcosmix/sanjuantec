@@ -23,7 +23,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
-    return view('welcome');
+    return view('certificados.index');
     });
     Route::resource('cursos',CursosController::class);
     //Menú 'Generar Certificados' ↓
