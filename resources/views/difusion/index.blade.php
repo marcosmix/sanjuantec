@@ -3,17 +3,17 @@
 <section>
     <div class="contenedor contenedor-center-column">
         <div class="content-btn">
-            <a class="btn btn-crear" href="#">
+            <a class="boton boton-primario" href="#">
             Importar contactos
             </a>
         </div>
         <div class="content-btn">
-            <a class="btn btn-crear" href="{{ route('difusion.EnviarMensaje') }}">
+            <a class="boton boton-primario" href="{{ route('difusion.EnviarMensaje') }}">
             Difundir mensaje
             </a>
         </div>
         <div class="content-btn">
-            <a class="btn btn-crear" href="{{route('difusion.ImportarAprobados')}}">
+            <a class="boton boton-primario" href="{{route('difusion.ImportarAprobados')}}">
             Enviar certificados
             </a>
         </div>

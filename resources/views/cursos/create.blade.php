@@ -1,13 +1,7 @@
-<style>
-    .form-curso{
-        width: 60%;
-        margin: 30px 20% 0 20%;
-    }
-</style>
 <form class='form-curso' action="{{route('cursos.store')}}" method="POST">
         @csrf
        <img src="{{asset('img/modelo.jpg')}}" alt="">
-       
+
         <div class="mb-3">
             <label class="form-label" for="nombre">Nombre del Curso (5)</label>
             <input type="text" class='form-control' name="nombre" id="nombre">
@@ -37,6 +31,6 @@
                 <option value="{{$p['id']}}">{{$p['nombre']}}</option>
             @endforeach
         </select>
-        
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <br>
+        <button type="submit" class="boton boton-exito">Guardar</button>
 </form>

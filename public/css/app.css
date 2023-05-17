@@ -1,6 +1,71 @@
 /* Estilos */
+body {
+    background-color: #f3f4f6;
+}
+
 .centrar-texto {
     text-align: center;
+}
+
+.margen-izquierdo-20px {
+    margin-left: 20px;
+}
+/* Estilos de botones  */
+.boton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Botones con colores personalizados */
+/* Customizable button colors */
+.boton-primario {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.boton-secundario {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.boton-exito {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.boton-aviso {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.boton-alerta {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Button hover styles */
+.boton-primario:hover,
+.boton-secundario:hover,
+.boton-exito:hover,
+.boton-aviso:hover,
+.boton-alerta:hover {
+    opacity: 0.8;
+}
+
+/* Button pressing styles */
+.boton-primario:active,
+.boton-secundario:active,
+.boton-exito:active,
+.boton-aviso:active,
+.boton-alerta:active {
+    transform: translateY(1px);
 }
 
 /* Estilos de cursor */
@@ -79,8 +144,14 @@ header {
 	justify-content: center;
 }
 
+.btn-seccion {
+    background: #772f2f;
+	color: white;
+	font-weight: 600;
+}
+
 .btn-crear {
-	background: #eb8025;
+	background: #008000;
 	color: white;
 	font-weight: 600;
 }
@@ -90,4 +161,15 @@ header {
 	height: 154px;
 	justify-content: space-around;
 	align-items: initial;
+}
+/* Estilos de vista crearConExcel.blade.php (/resources/views/certificados/crearConExcel.blade.php) */
+.form-curso{
+    width: 60%;
+    margin: 30px 20% 0 20%;
+}
+.cont-check-box{
+    padding: 20px 14px;
+    border: solid salmon 1px;
+    border-radius: 14px;
+
 }
