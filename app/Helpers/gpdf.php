@@ -1,6 +1,6 @@
 <?php
 
-namespace App\helpers;
+namespace App\Helpers;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -17,8 +17,8 @@ trait gpdf{
 
         view()->share($vista, ['datos' => $datos]);
         $dompdf->loadhtml(view($vista, ['datos' => $datos]));
-    
-        
+
+
         if($horizontal)
          $dompdf->setPaper('A4', 'landscape');
 

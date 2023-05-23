@@ -52,8 +52,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-});
 
+    // Ruta provisoria para probar endpoint de Moodle.
+    Route::get('/test_endpoint', [CursosController::class, 'mostrarCursos']);
+});
 
 require __DIR__.'/auth.php';
 
