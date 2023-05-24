@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Http;
+use App\Exceptions\MoodleRequestException;
 
 class CursaTec
 {
@@ -27,16 +28,17 @@ class CursaTec
 
         if ($respuesta->successful()) {
             $datosCursos = $respuesta->json();
-            var_dump($datosCursos);
+            return $datosCursos;
         } else {
             $codigoEstado = $respuesta->status();
+            throw new MoodleRequestException("Consulta Moodle ha fallado con el código de estado: $codigoEstado");
         }
     /**
-     * Este método obtiene todos los cursos en la plataforma Moodle de Cursatec.
-     * TODO Se recurrió provisoriamente en un var_dump(). Posteriormente, se devolverán los datos para ser
-     * utilizados donde sea requerido.
+     * Este método obtiene todos los cursos y sus datos en la plataforma Moodle de Cursatec.
+     * Para realizar la petición GET se recurre a Guzzle como cliente HTTP de Laravel.
      * @author Leandro Brizuela
      * @date 23 de mayo de 2023.
+     * @return array $datosCursos
      */
     }
 }
