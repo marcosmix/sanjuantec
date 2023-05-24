@@ -57,6 +57,16 @@ class CursosController extends Controller
     public function mostrarCursos()
     {
         $cursaTec = new CursaTec();
-        $cursaTec->obtenerCursos();
+        $cursos = $cursaTec->obtenerCursos();
+
+        foreach ($cursos as $curso) :
+            var_dump($curso); echo "<br><hr>";
+        endforeach;
+    /**
+     * Este método obtiene todos los cursos que están presentes en Moodle/CursaTec. Ha sido creado para poner
+     * a prueba la integración con la funcionalidad de Servicios Externos de Moodle.
+     * @author Leandro Brizuela
+     * @date 23 de mayo de 2023.
+     */
     }
 }
