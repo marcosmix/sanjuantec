@@ -53,8 +53,8 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Ruta provisoria para probar endpoint de Moodle.
-    Route::get('/test_endpoint', [CursosController::class, 'mostrarCursos']);
+    // TODO Ruta provisoria para probar endpoint de Moodle.
+    Route::get('/test_mostrarCursos', [CursosController::class, 'mostrarCursos']);//Obtiene los cursos en Moodle/CursaTec.
 });
 
 require __DIR__.'/auth.php';
