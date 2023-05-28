@@ -246,11 +246,6 @@ header {
 .carta-body {
     overflow-y: scroll;
     width: 100%;
-    height: 114px;
-}
-
-.carta-body {
-    overflow: auto;
     overflow: overlay;
 }
 
