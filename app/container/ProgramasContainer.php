@@ -2,10 +2,10 @@
 namespace App\container;
 
 class ProgramasContainer{
-    
+
     static $programas
         = [
-            ['id' => 1, 'nombre' => 'Programacion'],
+            ['id' => 1, 'nombre' => 'Programación'],
             ['id' => 2, 'nombre' => 'Videojuegos'],
             ['id' => 3, 'nombre' => 'Marketing']
         ];

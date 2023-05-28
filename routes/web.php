@@ -25,21 +25,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
     return view('certificados.index');
     });
-    Route::resource('cursos',CursosController::class);
-    //Menú 'Generar Certificados' ↓
-    Route::get('/generarCertificados/{curso_id}',[CertificadoController::class,'index'])->name('generarCertificados');
+
+    // Menú Crear plantillas de cursos ↓
+    Route::get('/plantillas', [CursosController::class, 'index'])->name('plantillas');
+    Route::get('/plantillas/crear', [CursosController::class, 'crearPlantilla'])->name('crearPlantilla');
+    Route::post('/plantillas/crear', [CursosController::class, 'guardarPlantilla'])->name('guardarPlantilla');
+    Route::post('/plantillas/generar', [DifusionController::class, 'generarCertificados'])->name('generarCertificados');
+
+    // Menú 'Generar Certificados' ↓
+    // TODO Ruta comentada para evitar conflictos con otra ruta definida con el mismo nombre. Al finalizar la implementación del
+    // nuevo flujo de uso, es posible que sea eliminada o editada.
+    //  Route::get('/generarCertificados/{curso_id}',[CertificadoController::class,'index'])->name('generarCertificados');
     Route::post('/procesando',[CertificadoController::class,'generar'])->name('generarLectura');
     Route::post('/generarCertificadoEspeciales',[CertificadoController::class, 'generarCertificadoEspeciales'])->name('generarCertificadoEspeciales');
     Route::post('/generarCertificadoJam',[CertificadoController::class, 'generarCertificadoJam'])->name('generarCertificadoJam');
+
     // Menú 'Certificados' ↓
     Route::view('/certificados/index','certificados.index')->name('cursosInicio');
     Route::view('/certificados/especiales', 'certificados.certificadosEspecialesExcel')->name('certificadosEspecialesIndex');
     Route::get('/cetificadoJAM',function(){
         return view('certificados.certificadoJAM');
     });
+
     // Menú 'Difusión' ↓
     Route::get('/difusion', [DifusionController::class, 'index'])->name('difusion.index');
-    Route::get('/difusionImportarAprobados', [DifusionController::class, 'CargarContactos'])->name('difusion.ImportarAprobados');
     Route::post('/emviarMailsAprobados', [DifusionController::class, 'EnviarCertificados'])->name('difusion.EnviarCertificados');
     Route::get('/enviarMails',[DifusionController::class,'enviarMails'])->name('enviarMail');
     Route::get('/EnviarMensaje',[DifusionController::class,'enviarMensaje'])->name('difusion.EnviarMensaje');

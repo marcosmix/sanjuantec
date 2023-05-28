@@ -11,17 +11,18 @@ class CursosController extends Controller
 {
     public function index()
     {
-        $programas = ProgramasContainer::listar();
         $cursos = Curso::all();
 
-        return view("cursos.index", compact("cursos", "programas"));
+        return view("cursos.cardCurso", compact("cursos"));
     }
 
-    public function create()
+    public function crearPlantilla ()
     {
+        $programas = ProgramasContainer::listar();
+        return view("cursos.crearPlantilla", compact('programas'));
     }
 
-    public function store(Request $request)
+    public function guardarPlantilla (Request $request)
     {
         $nuevo_curso = new Curso();
         $nuevo_curso->create([
@@ -33,19 +34,7 @@ class CursosController extends Controller
             "programa_id" => $request->programa_id,
         ]);
 
-        return redirect(route("cursos.index"));
-    }
-
-    public function show(Curso $curso)
-    {
-    }
-
-    public function edit(Curso $curso)
-    {
-    }
-
-    public function update(Request $request, Curso $curso)
-    {
+        return redirect(route("plantillas"));
     }
 
     public function destroy(Curso $curso)
