@@ -12,7 +12,6 @@ class CursosController extends Controller
     public function index()
     {
         $cursos = Curso::all();
-
         return view("cursos.cardCurso", compact("cursos"));
     }
 
