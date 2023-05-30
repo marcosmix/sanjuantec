@@ -45,9 +45,9 @@ class DifusionController extends Controller
     {
         $datos = $request->input('datos');
         // TODO Aquí deberán ser implementadas las siguientes funcionalidades:
-        // - El llamado a otro método que guardará los certificados (base de datos (+ ¿pdf?)).
         // - El llamado a otro método que generará los certificados.
-        // - El llamado a otro método que enviará email a los alumnos de un curso determinado.
+        // - El llamado a otro método que guardará los certificados (base de datos (+ ¿pdf?)).
+        // - El llamado a otro método que enviará el certificado vía email a cada alumno de un curso determinado.
 
         return view("difusion.enviarCertificados", compact('datos'));
     }
