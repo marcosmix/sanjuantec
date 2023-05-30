@@ -11,7 +11,7 @@
         <input type="text" class='form-control' name="texto" id="texto" required>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="duracion">Duracion del curso (4)</label>
+        <label class="form-label" for="duracion">Duracion del curso (2)</label>
         <input type="text" class='form-control' name="duracion" id="duracion" required>
     </div>
     <div class="mb-3">
@@ -19,8 +19,7 @@
         <input type="text" class='form-control' name="fecha" id="fecha" required>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="fecha">Bloque (3)</label>
-        <input type="text" class='form-control' name="bloque" id="fecha" required>
+        <label class="form-label" for="programa_id">Bloque (3)</label>
     </div>
     <select class="form-select" name="programa_id" id="programa">
         @foreach ($programas as $p)
@@ -30,6 +29,7 @@
     <br>
     <button type="submit" class="boton boton-primario">Guardar</button>
 </form>
+
 <div class="centrar-texto">
     <button id="boton-volver" type="submit" class="boton boton-aviso">Volver</button>
 </div>
