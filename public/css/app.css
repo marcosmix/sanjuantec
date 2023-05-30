@@ -12,6 +12,10 @@ input[type="checkbox"] {
   margin-right: 8px;
 }
 
+.margen-inferior-60px {
+    margin-top: 60px;
+}
+
 .margen-izquierdo-20px {
     margin-left: 20px;
 }
@@ -146,7 +150,7 @@ header {
 
 /* Estilo de la sección content. */
 .content-section {
-    padding: 60px 50px;
+    padding: 30px 25px;
 }
 
 /* Estilos de menú Certificados (index-certificados.blade.php)  */

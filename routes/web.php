@@ -32,6 +32,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/plantillas/crear', [CursosController::class, 'guardarPlantilla'])->name('guardarPlantilla');
     Route::post('/plantillas/generar', [DifusionController::class, 'generarCertificados'])->name('generarCertificados');
 
+    // Menú Generar certificados de cursos. ↓
+    Route::get('/certificados/generar', [DifusionController::class, 'generarCertificadosPorCurso'])->name('generarCertificadosPorCurso');
+
     // Menú 'Generar Certificados' ↓
     // TODO Ruta comentada para evitar conflictos con otra ruta definida con el mismo nombre. Al finalizar la implementación del
     // nuevo flujo de uso, es posible que sea eliminada o editada.

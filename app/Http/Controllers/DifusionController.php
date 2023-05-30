@@ -43,13 +43,32 @@ class DifusionController extends Controller
 
     public function generarCertificados(Request $request)
     {
+        $titulo = "Certificados de cursos";
         $datos = $request->input('datos');
+
+        $vista1 = view('base', compact('titulo'));
+        $vista2 = view("difusion.importarContactos", compact('datos'));
+
+        $vistaConcatenada = $vista1->render() . $vista2->render();
         // TODO Aquí deberán ser implementadas las siguientes funcionalidades:
         // - El llamado a otro método que generará los certificados.
         // - El llamado a otro método que guardará los certificados (base de datos (+ ¿pdf?)).
         // - El llamado a otro método que enviará el certificado vía email a cada alumno de un curso determinado.
 
-        return view("difusion.enviarCertificados", compact('datos'));
+        return $vistaConcatenada;
+        // return view("difusion.importarContactos", compact('datos'));
+    }
+
+    public function generarCertificadosPorCurso()
+    {
+        $titulo = "Certificados de cursos";
+        $cursos = Curso::all();
+        // TODO Aquí deberán ser implementadas las siguientes funcionalidades:
+        // - El llamado a otro método que generará los certificados.
+        // - El llamado a otro método que guardará los certificados (base de datos (+ ¿pdf?)).
+        // - El llamado a otro método que enviará el certificado vía email a cada alumno de un curso determinado.
+
+        return view("difusion.enviarCertificados", compact('cursos', 'titulo'));
     }
 
     public function EnviarCertificados(Request $request)

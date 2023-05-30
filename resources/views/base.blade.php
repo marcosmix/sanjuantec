@@ -11,6 +11,9 @@
     </head>
     <body>
         @include('menu')
+        @if (isset($titulo))
+        <h3 class="centrar-texto margen-superior-60px"> {{ $titulo }}</h3>
+        @endif
         <section class="content-section">
             @yield('content')
         </section>
