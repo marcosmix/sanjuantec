@@ -5,7 +5,6 @@
     <div class="carta">
         <div class="carta-body">
             <h5 class="carta-title">{{ $curso->nombre }}</h5>
-            <h6 class="carta-subtitle mb-2 text-muted">{{ $curso->programa() }}</h6>
             <p class="carta-text">{{ $curso->texto }}</p>
             <p class="carta-text">{{ $curso->bloque }}</p>
             <p class="carta-text">{{ $curso->duracion }}</p>
@@ -20,7 +19,6 @@
             <input type="hidden" name="datos[duracion]" value="{{ $curso->duracion }}">
             <input type="hidden" name="datos[fecha]" value="{{ $curso->fecha }}">
             <input type="hidden" name="datos[bloque]" value="{{ $curso->bloque }}">
-            <input type="hidden" name="datos[programa]" value="{{ $curso->programa() }}">
             <button type="submit" class="btn btn-success btn-generar">Generar certificados</button>
         </form>
     </div>

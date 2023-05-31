@@ -3,6 +3,10 @@ body {
     background-color: #f3f4f6;
 }
 
+.borde-rojo {
+    border-color: #dc3545;
+}
+
 .centrar-texto {
     text-align: center;
 }

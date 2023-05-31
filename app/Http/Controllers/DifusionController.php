@@ -56,7 +56,6 @@ class DifusionController extends Controller
         // - El llamado a otro método que enviará el certificado vía email a cada alumno de un curso determinado.
 
         return $vistaConcatenada;
-        // return view("difusion.importarContactos", compact('datos'));
     }
 
     public function generarCertificadosPorCurso()

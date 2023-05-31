@@ -1,5 +1,5 @@
 @include('base')
-<form class='form-curso' action="{{route('crearPlantilla')}}" method="POST">
+<form class='form-curso' action="{{route('guardarPlantilla')}}" method="POST">
     @csrf
     <img src="{{asset('img/modelo.jpg')}}" alt="">
     <div class="mb-3">
@@ -19,14 +19,17 @@
         <input type="text" class='form-control' name="fecha" id="fecha" required>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="programa_id">Bloque (3)</label>
+        <label class="form-label" for="bloque">Bloque (3)</label>
     </div>
-    <select class="form-select" name="programa_id" id="programa">
+    <select class="form-select" name="bloque" id="programa">
         @foreach ($programas as $p)
-        <option value="{{$p['id']}}">{{$p['nombre']}}</option>
+        <option value="{{$p['nombre']}}">{{$p['nombre']}}</option>
         @endforeach
     </select>
     <br>
+    @if (isset($importarListado))
+        @include('difusion.importarListado')
+    @endif
     <button type="submit" class="boton boton-primario">Guardar</button>
 </form>
 

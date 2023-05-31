@@ -13,7 +13,7 @@
         <a href="{{ route('generarCertificadosPorCurso') }}">Generar<br> certificados de cursos</a>
     </div>
     <div class="cuadrado cuadrado-3">
-        <a href="#">Generar otros certificados</a>
+        <a href="{{ route('generarOtrosCertificados') }}">Generar otros certificados</a>
     </div>
     <div class="cuadrado cuadrado-4">
         <a href="#">Generar un certificado de un/a alumno/a</a>

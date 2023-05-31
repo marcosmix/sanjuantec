@@ -21,8 +21,17 @@ class CursosController extends Controller
         return view("cursos.crearPlantilla", compact('programas'));
     }
 
+    public function generarOtrosCertificados ()
+    {
+         $titulo = "Crear Plantilla de Curso";
+         $importarListado = true;
+         $programas = ProgramasContainer::listar();
+         return view("cursos.crearPlantilla", compact('importarListado', 'programas', 'titulo'));
+    }
+
     public function guardarPlantilla (Request $request)
     {
+        // TODO Implementar validación de datos.
         $nuevo_curso = new Curso();
         $nuevo_curso->create([
             "nombre" => $request->nombre,
@@ -30,7 +39,6 @@ class CursosController extends Controller
             "duracion" => $request->duracion,
             "fecha" => $request->fecha,
             "bloque" => $request->bloque,
-            "programa_id" => $request->programa_id,
         ]);
 
         return redirect(route("plantillas"));
