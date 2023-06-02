@@ -32,8 +32,8 @@ class CursosController extends Controller
     public function guardarPlantilla (Request $request)
     {
         // TODO Implementar validación de datos.
-        $nuevo_curso = new Curso();
-        $nuevo_curso->create([
+        $nuevoCurso = new Curso();
+        $nuevoCurso->create([
             "nombre" => $request->nombre,
             "texto" => $request->texto,
             "duracion" => $request->duracion,
