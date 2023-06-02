@@ -22,6 +22,12 @@ class CertificadoController extends Controller
         return view("certificados.index", compact("curso"));
     }
 
+    public function administrarCertificados ()
+    {
+        $titulo = "Certificados Generados";
+        return view("certificados.administrarCertificados", compact("titulo"));
+    }
+
     public function generarCertificadoJam(Request $request)
     {
         $listado = (new ProyectosImport())->toArray($request->file("listado"));
