@@ -19,4 +19,11 @@
         <a href="#">Generar un certificado de un/a alumno/a</a>
     </div>
 </div>
+<br><br>
+<h4>Historial</h4>
+<div class="contenedor-cuadrados">
+    <div class="cuadrado cuadrado-5">
+        <a href=" {{ route('administrarCertificados') }}">Administrar<br> certificados de cursos</a>
+    </div>
+</div>
 @endsection
