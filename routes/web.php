@@ -38,6 +38,9 @@ Route::middleware(['auth'])->group(function () {
     // Menú Generar otros certificados. ↓
     Route::get('/certificados/generarOtros', [CursosController::class, 'generarOtrosCertificados'])->name('generarOtrosCertificados');
 
+    // Menú Administrar certificados de cursos
+    Route::get('/certificados', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
+
     // Menú 'Generar Certificados' ↓
     // TODO Ruta comentada para evitar conflictos con otra ruta definida con el mismo nombre. Al finalizar la implementación del
     // nuevo flujo de uso, es posible que sea eliminada o editada.
