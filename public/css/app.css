@@ -7,6 +7,13 @@ body {
     border-color: #dc3545;
 }
 
+.centrar-tabla {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh; /* Ajustar la altura deseada. */
+}
+
 .centrar-texto {
     text-align: center;
 }
@@ -51,6 +58,18 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+.boton-2 {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
 /* Botones con colores personalizados */
 .boton-primario {
     background-color: #007bff;
@@ -77,12 +96,24 @@ input[type="checkbox"] {
     color: #fff;
 }
 
+.boton-ver {
+    background-color: #298D7B;
+    color: #fff;
+}
+
+.boton-enviar {
+    background: #29758D;
+    color: #fff;
+}
+
 /* Estilos de botones señalados */
 .boton-primario:hover,
 .boton-secundario:hover,
 .boton-exito:hover,
 .boton-aviso:hover,
-.boton-alerta:hover {
+.boton-alerta:hover,
+.boton-ver:hover,
+.boton-enviar:hover {
     opacity: 0.8;
 }
 
@@ -91,9 +122,31 @@ input[type="checkbox"] {
 .boton-secundario:active,
 .boton-exito:active,
 .boton-aviso:active,
-.boton-alerta:active {
+.boton-alerta:active,
+.boton-ver:active,
+.boton-enviar:active {
     transform: translateY(1px);
 }
+
+/* Estilos de círculos */
+.circulo {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.circulo-verdadero {
+    background: #238958;
+}
+
+.circulo-falso {
+    background: #D83C3C;
+}
+
 
 /* Estilos de cursor */
 .cursor-apuntador {
@@ -214,6 +267,10 @@ header {
     background-color: #59a2d7;
 }
 
+.cuadrado-5 {
+    background-color: #e84823;
+}
+
 .btn-seccion {
     background: #772f2f;
     color: white;
@@ -281,3 +338,58 @@ header {
     border-radius: 20px;
     border-width: 1px;
 }
+
+/* Estilos de la tabla de certificados, de la vista administrarCertificados.blade.php. */
+table.tabla-certificados {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 1220px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table.tabla-certificados td,
+table.tabla-certificados th {
+    border: 0px solid #AAAAAA;
+    padding: 3px 10px;
+}
+
+table.tabla-certificados td {
+    position: relative;
+}
+
+table.tabla-certificados tbody td {
+    font-size: 15px;
+}
+
+table.tabla-certificados thead {
+    background: #B06762;
+    display: table-row-group;
+    position: relative;
+}
+
+table.tabla-certificados thead th {
+    font-size: 18px;
+    font-weight: normal;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+table.tabla-certificados thead::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -10px;
+    right: -10px;
+    bottom: -1px;
+    background-color: #B06762;
+    border-radius: 15px;
+    z-index: -1;
+}
+
+/* Estilos de flechas */
+.flecha-arriba,
+.flecha-abajo {
+  font-size: 15px;
+}
+
