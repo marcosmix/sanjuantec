@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/plantillas', [CursosController::class, 'index'])->name('plantillas');
     Route::get('/plantillas/crear', [CursosController::class, 'crearPlantilla'])->name('crearPlantilla');
     Route::post('/plantillas/crear', [CursosController::class, 'guardarPlantilla'])->name('guardarPlantilla');
-    Route::post('/plantillas/generar', [DifusionController::class, 'generarCertificados'])->name('generarCertificados');
+    Route::post('/plantillas/generar', [DifusionController::class, 'prepararEnvioCertificados'])->name('prepararEnvioCertificados');
 
     // Menú Generar certificados de cursos. ↓
     Route::get('/certificados/generar', [DifusionController::class, 'generarCertificadosPorCurso'])->name('generarCertificadosPorCurso');
@@ -40,6 +40,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Menú Administrar certificados de cursos
     Route::get('/certificados', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
+
+    /**
+     * A partir de aquí, están definidas las rutas que deberán ser revisadas para ser refactorizadas, descartadas o simplemente utilizadas.
+     * @author Leandro Brizuela
+     * @date 02 de junio de 2023
+     */
 
     // Menú 'Generar Certificados' ↓
     // TODO Ruta comentada para evitar conflictos con otra ruta definida con el mismo nombre. Al finalizar la implementación del
@@ -58,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Menú 'Difusión' ↓
     Route::get('/difusion', [DifusionController::class, 'index'])->name('difusion.index');
-    Route::post('/emviarMailsAprobados', [DifusionController::class, 'EnviarCertificados'])->name('difusion.EnviarCertificados');
+    Route::post('/enviarMailsAprobados', [DifusionController::class, 'EnviarCertificados'])->name('difusion.EnviarCertificados');
     Route::get('/enviarMails',[DifusionController::class,'enviarMails'])->name('enviarMail');
     Route::get('/EnviarMensaje',[DifusionController::class,'enviarMensaje'])->name('difusion.EnviarMensaje');
     Route::post('/EnviarMensaje',[DifusionController::class,'EnviarMensajePOST'])->name('difusion.EnviarMensajePOST');
