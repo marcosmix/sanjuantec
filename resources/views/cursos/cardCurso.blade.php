@@ -1,5 +1,18 @@
 @include('base')
+<!-- Mensajes de error de validación en la subida de archivos que contienen destinatarios. -->
+<div class="centrar-texto">
+    @if ($errors->any())
+        <div class="alerta alerta-error boton centrar-texto">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="listado-errores">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</div>
 
+<!-- Listado de cursos. -->
 <div class="contenedor">
     @foreach ($cursos as $curso)
     <div class="carta">
@@ -11,8 +24,8 @@
             <p class="carta-text">{{ $curso->fecha }}</p>
             <p class="carta-text">{{ $curso->bloque }}</p>
         </div>
-
-        <form action="{{ route('generarCertificados') }}" method="POST">
+        <!-- Este formulario oculto envía los datos al controlador para la generación de certificados. -->
+        <form action="{{ route('prepararEnvioCertificados') }}" method="POST">
             @csrf
             <input type="hidden" name="datos[nombre]" value="{{ $curso->nombre }}">
             <input type="hidden" name="datos[texto]" value="{{ $curso->texto }}">
