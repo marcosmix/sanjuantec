@@ -1,5 +1,5 @@
 <?php
-namespace App\helpers;
+namespace App\Helpers;
 
 trait rutas{
     protected $raiz='certificados\\';
