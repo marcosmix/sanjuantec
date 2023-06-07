@@ -39,6 +39,16 @@ class CertificadoController extends Controller
         return redirect(route("cursos.index"));
     }
 
+    public function procesarCertificadosJam($nombre_proyecto)
+    {
+        $this->generarPDF(
+            ["nombre_proyecto" => $nombre_proyecto],
+            "certificados.certificadoGrupal",
+            true,
+            "certificados\\jam\\" . $nombre_proyecto . ".pdf"
+        );
+    }
+
     public function generar(Request $request)
     {
         // $listado=Excel::import(new EstudiantesImport,request()->file('listado'));
@@ -80,16 +90,6 @@ class CertificadoController extends Controller
         // );
 
         return view("certificados.mod1", compact("datos"));
-    }
-
-    public function procesarCertificadosJam($nombre_proyecto)
-    {
-        $this->generarPDF(
-            ["nombre_proyecto" => $nombre_proyecto],
-            "certificados.certificadoGrupal",
-            true,
-            "certificados\\jam\\" . $nombre_proyecto . ".pdf"
-        );
     }
 
     public function procesarEstudiantes($curso, $listado)
