@@ -11,10 +11,14 @@ class MailTec
 {
     static function EnviarMailCertificados($estudiante, $curso, $mensajes)
     {
-        Mail::to($estudiante["email"])->send(
+        $email = $estudiante->email;
+
+        Mail::to($email)->send(
             new CertificadosMail($estudiante, $curso, $mensajes)
         );
     }
+
+
     static function EnviarCuentasCursatec($estudiante)
     {
         Mail::to($estudiante["email"])->send(new CursatecMail($estudiante));
