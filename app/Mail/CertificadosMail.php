@@ -30,7 +30,6 @@ class CertificadosMail extends Mailable
 
         // Verificación de archivo de certificado .pdf
         if (!file_exists($rutaArchivoAdjunto)) {
-            // Add debugging statement to check the existence of the file
             dd("El archivo adjuntable no ha sido encontrado en el directorio: " . $rutaArchivoAdjunto);
         }
 
