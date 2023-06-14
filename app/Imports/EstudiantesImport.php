@@ -41,16 +41,19 @@ class EstudiantesImport implements ToModel, WithValidation
             throw new \Exception('Fila inválida de datos. Revisar el archivo.');
         }
 
-        return new Estudiante([
-            'nombre' => $row[0],
-            'apellido' => $row[1],
+        $estudiante = new Estudiante([
+            'nombre' => mb_convert_case($row[0], MB_CASE_TITLE, 'UTF-8'),
+            'apellido' => mb_convert_case($row[1], MB_CASE_TITLE, 'UTF-8'),
             'dni' => $row[2],
             'celular' => $row[3],
-            'email' => $row[4],
+            'email' => $row[4]
         ]);
-    /**
+
+        return $estudiante;
+     /**
      * Esta función se encarga de construir un objeto de datos utilizando el listado de destinatarios
      * de correos electrónicos con certificados que se encuentra en formato Excel.
+     * Se optó por normalizar el nombre y apellido con mayúscula en la primera letra, utilizando el método mb_convert_case().
      * @author Marcos Caballero, Leandro Brizuela.
      * @param array $row Fila del archivo excel.
      * @return object Estudiante
