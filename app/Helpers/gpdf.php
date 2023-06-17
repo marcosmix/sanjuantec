@@ -7,8 +7,8 @@ use Dompdf\Options;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-trait gpdf{
-
+trait gpdf
+{
     public function generarPDF ($datos, $vista, $horizontal = false, $url)
     {
         // Inicializar Dompdf con opciones.
@@ -33,21 +33,33 @@ trait gpdf{
         // Obtener el PDF resultante.
         $output = $dompdf->output();
 
-        // Compartir nuevamente los datos con la vista (para una librería PDF diferente).
-        view()->share($vista, ['datos' => $datos]);
+        // Crear el directorio si no existe aún.
+        $directorio = public_path($url);
+        if (!file_exists($directorio)) {
+            mkdir($directorio, 0755, true);
+        }
 
-        // Generar un PDF utilizando la clase Pdf (se asume que ha sido importada previamente).
-        $pdf = Pdf::loadView($vista, ['datos' => $datos]);
-        $pdf->setPaper('A4', 'landscape');
-        $pdf->render();
-        $output = $pdf->output();
-
-        // Guardar el archivo PDF en la ruta especificada, utilizando el Storage de Laravel.
-        Storage::disk('public')->put($url, $output);
+        // Guardar el archivo PDF en la ruta especificada.
+        $locacionArchivo = $directorio . $datos['estudiante']['dni'] . '.pdf';
+        file_put_contents($locacionArchivo, $output);
 
         // Devolver el archivo PDF como una respuesta descargable.
-        return $pdf->download('$url');
+        return response()->download($locacionArchivo);
+    /**
+     * Método requerido para la conformación y guardado de certificados PDF.
+     * @Autores: Marcos Caballero, Leandro Brizuela.
+     * Se ha implementado una nueva funcionalidad para crear directorios en caso de que no existan.
+     *
+     * @param array $datos Matriz con los datos requeridos para la conformación del PDF.
+     * @param string $vista Nombre de la vista Blade. Ejemplo: "certificados.modelo1".
+     * @param bool $horizontal Valor lógico que determina la orientación del PDF (horizontal o vertical).
+     *                        True para horizontal, false para vertical.
+     * @param string $url Directorio desde la raíz de la aplicación donde se almacenará el archivo PDF.
+     *
+     * @return object Archivo resultante como una respuesta descargable.
+     */
     }
+
 
 
     // public function generarCertificadoJam($nombre_proyecto)
@@ -83,5 +95,4 @@ trait gpdf{
     //     return $pdf->download('$url');
     // }
 }
-
 ?>
