@@ -69,7 +69,7 @@ class DifusionController extends Controller
         return view("difusion.enviarCertificados", compact('cursos', 'titulo'));
     }
 
-    public function EnviarCertificados(Request $request)
+    public function EnviarCertificados (Request $request)
     {
         // Validar archivo subido.
         $validacion = Validator::make($request->all(), [
@@ -89,22 +89,28 @@ class DifusionController extends Controller
             ->first()
             ->toArray();
 
-         // TODO Aquí, invocar método para la creación de los certificados.
+        // Guardado iterativo de certificados.
         $certificado = New Certificado();
-        $certificadoGenerado = $certificado->generarCertificadosPorCurso($curso, $listado);
-        die();
+
+        foreach ($listado as $estudiante) {
+            $certificadoGenerado = $certificado->generarCertificadosPorCurso($curso, $estudiante);
+        }
+
         // Obtener mensaje.
         $mensaje = MensajesContainer::difusionMarketing();
 
         // Envío iterativo de emails con certificados.
-        foreach ($listado as $estudiante) {
-            MailTec::EnviarMailCertificados(
-                $estudiante,
-                $curso,
-                $mensaje
-            );
+        if ((isset($request->enviarEmail) && ($request->enviarEmail == true))) {
+            foreach ($listado as $estudiante) {
+                MailTec::EnviarMailCertificados(
+                    $estudiante,
+                    $curso,
+                    $mensaje
+                );
+            }
         }
-
+        // TODO Plantear el envío de emails por medio de queue/cola.
+        // - Agregar mensaje de resumen de certificados enviados.
         return redirect()->route('plantillas');
     }
 
