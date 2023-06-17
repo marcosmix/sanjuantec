@@ -9,24 +9,25 @@ use App\helpers\rutas;
 
 class CertificadosMail extends Mailable
 {
-    use Queueable, SerializesModels,rutas;
+    use Queueable, SerializesModels, rutas;
 
-    public $estudiante,$curso,$mensaje;
+    public $estudiante, $curso, $mensaje;
 
-    public function __construct($estudiante, $curso, $mensaje='Test ')
+    public function __construct($estudiante, $curso, $mensaje = 'Test')
     {
         $this->estudiante = $estudiante;
         $this->curso = $curso;
         $this->mensaje = $mensaje;
     }
 
-
-
     public function build()
     {
         $curso = $this->curso['nombre'];
         $dniEstudiante = $this->estudiante->dni;
-        $rutaArchivoAdjunto = public_path('storage/certificados/'. $curso .'/' . $dniEstudiante . '.pdf');
+        $estudianteArray = $this->estudiante->toArray(); // Esta conversión de objeto a matriz es necesaria
+        // para la generación de la rutaArchivoAdjunto.
+
+        $rutaArchivoAdjunto = public_path($this->GenerarRutaPDF($this->curso, $estudianteArray));
 
         // Verificación de archivo de certificado .pdf
         if (!file_exists($rutaArchivoAdjunto)) {
@@ -43,5 +44,4 @@ class CertificadosMail extends Mailable
                 'mime' => 'application/pdf'
             ]);
     }
-
 }
