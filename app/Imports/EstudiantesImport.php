@@ -10,7 +10,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 
 class EstudiantesImport implements ToModel, WithValidation
-{
     use Importable;
 
     public function rules(): array
@@ -19,8 +18,11 @@ class EstudiantesImport implements ToModel, WithValidation
             '0' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Nombre
             '1' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Apellido
             '2' => 'required|numeric', // DNI
-            '3' => 'required|numeric', // Celular
-            '4' => 'required|email', // E-mail
+            '3' => [
+                 'nullable',
+                 'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{7})$/'
+            ], // Celular
+            '4' => 'required|email' // E-mail
         ];
     /**
      * Esta función utiliza las reglas de validación que son empleadas por la función model().
@@ -35,10 +37,13 @@ class EstudiantesImport implements ToModel, WithValidation
 
     public function model (array $row)
     {
+        static $numeroFila = 1; // Contador de filas.
         $validacion = Validator::make($row, $this->rules());
 
         if ($validacion->fails()) {
-            throw new \Exception('Fila inválida de datos. Revisar el archivo.');
+            throw new \Exception(
+               'Fila inválida de datos. Revisar la siguiente fila en el archivo
+                (número de fila: ' . $numeroFila . '): ' . print_r($row, true));
         }
 
         $estudiante = new Estudiante([
@@ -48,6 +53,8 @@ class EstudiantesImport implements ToModel, WithValidation
             'celular' => $row[3],
             'email' => $row[4]
         ]);
+
+        $numeroFila++;
 
         return $estudiante;
      /**
