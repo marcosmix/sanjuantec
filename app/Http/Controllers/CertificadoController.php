@@ -66,28 +66,26 @@ class CertificadoController extends Controller
         return redirect(route("cursos.index"));
     }
 
-    // public function GenerarRutaPDF($curso,$estudiante){
-    //     return "certificados/".$curso['nombre']."/".strval($estudiante['dni']).".pdf";
-    // }
-
     public function testearVistaPDF()
     {
-        // $datos =["estudiante"=> [
-        //                             'nombre' => "Marcosio Danielon",
-        //                             'apellido' => "Caballeronn Agueriston",
-        //                             'dni' => "35.849.098"
-        //                         ],
-        //         "curso"=>['texto'=>'ha participado del curso teorico-practico demonomidado',
-        //                 'duracion'=>'con una duracion de 3 meces',
-        //                 'subprograma'=>'perteneciente al sub programa Talento Tec',
-        //                 'nombre'=> ' Fundamentos de Laravel Laravel Laravel Laravel Laravel Laravel',
-        //                 'fecha'=>'San Juan a los 25 dias de Abril de 2022']
+        $datos =[
+            "estudiante"=> [
+                'nombre' => "Marcosio Danielon",
+                'apellido' => "Caballeronn Agueriston",
+                'dni' => "35.849.098"
+            ],
+            "curso" =>[
+                'texto' => 'ha participado del curso teorico-practico demonomidado',
+                'duracion' =>'con una duracion de 3 meses',
+                'subprograma' => 'perteneciente al sub programa Talento Tec',
+                'bloque' => 'programación',
+                'nombre' => ' Fundamentos de Laravel',
+                'fecha' => 'San Juan a los 25 dias de Abril de 2022']
+            ];
 
-        //         ];
-
-        // $this->generarPDF($datos,
-        //     'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante'])
-        // );
+        $this->generarPDF($datos,
+            'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante'])
+        );
 
         return view("certificados.mod1", compact("datos"));
     }
