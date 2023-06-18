@@ -6,13 +6,13 @@
             <h3 class="centrar-texto">{{ $datos['nombre'] }}</h3>
             @endif
             <div class="div-borde-redondeado padding-total-10px">
-                <h3>Listado de alumnos que pertenecen a ese curso</h3>
-                <p><b>Formato del listado de alumnos:</b> </p>
-                <p>La hoja de cálculo debe contener hasta cuatro columnas: Nombre, apellido, DNI, celular, mail.</p>
+                <h3>Listado de alumnos que pertenecen a este curso</h3>
+                <p><b>Formato del listado de alumnos:</b></p>
+                <p>La hoja de cálculo debe contener hasta cinco columnas: Nombre, Apellido, DNI, Celular, Correo electrónico.</p>
                 <p>Deben respetar el mismo orden y no se debe colocar encabezado. No pueden faltar los valores de las
-                 columnas DNI y email ya que se implementan para realizar el envío.<br>
-                 Los otros campos pueden estar en blanco.</p>
-                <p>Se recomienda usar el mismo archivo con el que generó los certificados.</p>
+                columnas DNI y correo electrónico, ya que se requieren para realizar el envío.<br>
+                Los otros campos pueden estar en blanco.</p>
+                <p>Se recomienda utilizar el mismo archivo con el que se generaron los certificados.</p>
 
                 @if (isset($datos['nombre']))
                     <input type="hidden" name="curso" value="{{ $datos['nombre'] }}">
@@ -24,12 +24,11 @@
         <br>
         <div class="div-borde-redondeado padding-total-10px">
            <label>
-               <input type="checkbox" id="checkbox" name="enviar_email" value="true">
+               <input type="checkbox" id="checkbox" name="enviarEmail" value="true">
                    Enviar vía e-mail todos los certificados al terminar de generarlos.
            </label>
            <br>
         </div>
-        <!-- TODO Implementar la funcionalidad del botón Generar Certificados. -->
         <div class="centrar-texto margen-superior-20px">
             <button type="submit" class="boton boton-alerta margen-superior-20px">Generar Certificados</button>
         </div>
