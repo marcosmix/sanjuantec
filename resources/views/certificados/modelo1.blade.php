@@ -5,7 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Certificados</title>
-        <link rel="stylesheet" href="{{asset('css/certificad/mod_1.css')}}style.css">
         <style>@font-face {
             font-family: Brokman;
             src: url('/fonts/Brokman-Bold.ttf');
@@ -44,7 +43,7 @@
         .container {
             width: 295mm;
             height: 210mm;
-            background-image: url(./img/bg.jpg);
+            background-image: url({{ base64EncodeImage(public_path('img/bg.jpg')) }});
             background-repeat: no-repeat;
             background-size: contain;
             display: flex;
@@ -149,13 +148,13 @@
             </section>
             <div class="logosTec">
                 <br><br>
-                <img class="logosTec__firmaI" src="img/ariel_lucero.jpg" alt="">
-                <img class="edicion" src="img/20222.jpg" alt="">
-                <img class="logosTec__firmaD" src="img/daniel_gimeno.jpg" alt="">
+                <img class="logosTec__firmaI" src="{{ base64EncodeImage(public_path('img/ariel_lucero.jpg')) }}" alt="">
+                <img class="edicion" src="{{ base64EncodeImage(public_path('img/20222.jpg')) }}" alt="">
+                <img class="logosTec__firmaD" src="{{ base64EncodeImage(public_path('img/daniel_gimeno.jpg')) }}" alt="">
             </div>
             <div class="logossj">
                 <br><br><br><br><br><br><br><br>
-                <img class="logos" src="img/logos-sj.png" alt="">
+                 <img class="logos" src="{{ base64EncodeImage(public_path('img/logos-sj.png')) }}" alt="">
             </div>
         </div>
     </body>
