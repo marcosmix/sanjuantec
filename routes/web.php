@@ -5,7 +5,6 @@ use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\DifusionController;
 use App\Http\Controllers\ContactoController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/plantillas/crear', [CursosController::class, 'crearPlantilla'])->name('crearPlantilla');
     Route::post('/plantillas/crear', [CursosController::class, 'guardarPlantilla'])->name('guardarPlantilla');
     Route::post('/plantillas/generar', [DifusionController::class, 'prepararEnvioCertificados'])->name('prepararEnvioCertificados');
+    Route::post('/plantillas/enviarMailsAprobados', [DifusionController::class, 'EnviarCertificados'])->name('difusion.EnviarCertificados');
 
     // Menú Generar certificados de cursos. ↓
     Route::get('/certificados/generar', [DifusionController::class, 'generarCertificadosPorCurso'])->name('generarCertificadosPorCurso');
@@ -48,9 +48,7 @@ Route::middleware(['auth'])->group(function () {
      */
 
     // Menú 'Generar Certificados' ↓
-    // TODO Ruta comentada para evitar conflictos con otra ruta definida con el mismo nombre. Al finalizar la implementación del
-    // nuevo flujo de uso, es posible que sea eliminada o editada.
-    //  Route::get('/generarCertificados/{curso_id}',[CertificadoController::class,'index'])->name('generarCertificados');
+    Route::get('/generarCertificados/{curso_id}',[CertificadoController::class,'index'])->name('generarCertificados');
     Route::post('/procesando',[CertificadoController::class,'generar'])->name('generarLectura');
     Route::post('/generarCertificadoEspeciales',[CertificadoController::class, 'generarCertificadoEspeciales'])->name('generarCertificadoEspeciales');
     Route::post('/generarCertificadoJam',[CertificadoController::class, 'generarCertificadoJam'])->name('generarCertificadoJam');
@@ -64,15 +62,15 @@ Route::middleware(['auth'])->group(function () {
 
     // Menú 'Difusión' ↓
     Route::get('/difusion', [DifusionController::class, 'index'])->name('difusion.index');
-    Route::post('/enviarMailsAprobados', [DifusionController::class, 'EnviarCertificados'])->name('difusion.EnviarCertificados');
     Route::get('/enviarMails',[DifusionController::class,'enviarMails'])->name('enviarMail');
     Route::get('/EnviarMensaje',[DifusionController::class,'enviarMensaje'])->name('difusion.EnviarMensaje');
     Route::post('/EnviarMensaje',[DifusionController::class,'EnviarMensajePOST'])->name('difusion.EnviarMensajePOST');
+
     // Rutas a funcionalidades independientes ↓
     Route::post('/importarContactos',[ContactoController::class, 'importarContactos'])->name('importarContactos');
-
     Route::get('/testearPDF',[CertificadoController::class, 'testearVistaPDF']);
 
+    // Ruta predeterminada del dashboard/panel de Breeze-Blade.
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
