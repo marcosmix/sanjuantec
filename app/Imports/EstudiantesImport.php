@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 
 class EstudiantesImport implements ToModel, WithValidation
+{
     use Importable;
 
     public function rules(): array
