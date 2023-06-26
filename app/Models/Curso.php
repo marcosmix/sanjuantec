@@ -11,8 +11,8 @@ class Curso extends Model
     protected $guarded=[];
     use HasFactory;
 
-    public function programa(){
-      
+    public function programa()
+    {
         return ProgramasContainer::ver($this->programa_id)['nombre'];
     }
 }
