@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Certificado;
 use App\Models\Curso;
+use App\Jobs\ProcesarCertificado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\MailTec;
@@ -89,12 +89,9 @@ class DifusionController extends Controller
             ->first()
             ->toArray();
 
-        // Guardado iterativo de certificados.
-        $certificado = New Certificado();
-
-        foreach ($listado as $estudiante) {
-            $certificadoGenerado = $certificado->generarCertificadosPorCurso($curso, $estudiante);
-        }
+        // Guardado iterativo de certificados en segundo plano, procesado por lotes.
+        $tarea = new ProcesarCertificado($curso, $listado);
+        dispatch($tarea);
 
         // Obtener mensaje.
         $mensaje = MensajesContainer::difusionMarketing();
@@ -109,8 +106,7 @@ class DifusionController extends Controller
                 );
             }
         }
-        // TODO Plantear el envío de emails por medio de queue/cola.
-        // - Agregar mensaje de resumen de certificados enviados.
+        // TODO - Redireccionar a la tabla de administración de certificados.
         return redirect()->route('plantillas');
     }
 
