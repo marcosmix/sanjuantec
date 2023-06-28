@@ -71,18 +71,29 @@ class DifusionController extends Controller
 
     public function EnviarCertificados (Request $request)
     {
-        // Validar archivo subido.
+        // Primera validación: Comprobar extensión del archivo subido.
         $validacion = Validator::make($request->all(), [
             'contactos' => 'required|file|mimes:xlsx',
         ]);
 
-        // Revisar si la validación falló.
         if ($validacion->fails()) {
             return redirect()->route('plantillas')->withErrors($validacion);
         }
 
         // Obtener, del Excel, una matriz de alumnos destinatarios.
         $listado = (new EstudiantesImport())->toArray($request->file("contactos"));
+
+        // Segunda validación: Comprobar la integridad de los datos.
+        $erroresDeValidacion = [];
+        foreach ($listado as $estudiante) {
+            if (isset($estudiante['error'])) {
+                $erroresDeValidacion[] = $estudiante['error'];
+            }
+        }
+
+        if (!empty($erroresDeValidacion)) {
+            return redirect()->route('plantillas')->withErrors($erroresDeValidacion);
+        }
 
         // Obtener datos del curso, según su nombre.
         $curso = Curso::where("nombre", $request->curso)
@@ -107,7 +118,7 @@ class DifusionController extends Controller
             }
         }
         // TODO - Redireccionar a la tabla de administración de certificados.
-        return redirect()->route('plantillas');
+        return redirect()->route('administrarCertificados');
     }
 
     public function rowToArray($estudiante)
