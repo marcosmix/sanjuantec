@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class EstudiantesImport implements ToModel, WithValidation
 {
@@ -36,23 +37,23 @@ class EstudiantesImport implements ToModel, WithValidation
     }
 
 
-    public function model (array $row)
+    public function model (array $fila)
     {
         static $numeroFila = 1; // Contador de filas.
-        $validacion = Validator::make($row, $this->rules());
+        $validacion = Validator::make($fila, $this->rules());
 
         if ($validacion->fails()) {
-            throw new \Exception(
-               'Fila inválida de datos. Revisar la siguiente fila en el archivo
-                (número de fila: ' . $numeroFila . '): ' . print_r($row, true));
+            $mensajeError = 'Fila inválida de datos. Revisar la siguiente fila en el archivo (número de fila: ' . $numeroFila . '): ' . print_r($fila, true);
+            $numeroFila++;
+            return ['error' => $mensajeError];
         }
 
         $estudiante = new Estudiante([
-            'nombre' => mb_convert_case($row[0], MB_CASE_TITLE, 'UTF-8'),
-            'apellido' => mb_convert_case($row[1], MB_CASE_TITLE, 'UTF-8'),
-            'dni' => $row[2],
-            'celular' => $row[3],
-            'email' => $row[4]
+            'nombre' => mb_convert_case($fila[0], MB_CASE_TITLE, 'UTF-8'),
+            'apellido' => mb_convert_case($fila[1], MB_CASE_TITLE, 'UTF-8'),
+            'dni' => $fila[2],
+            'celular' => $fila[3],
+            'email' => $fila[4]
         ]);
 
         $numeroFila++;
@@ -63,7 +64,7 @@ class EstudiantesImport implements ToModel, WithValidation
      * de correos electrónicos con certificados que se encuentra en formato Excel.
      * Se optó por normalizar el nombre y apellido con mayúscula en la primera letra, utilizando el método mb_convert_case().
      * @author Marcos Caballero, Leandro Brizuela.
-     * @param array $row Fila del archivo excel.
+     * @param array $fila Fila del archivo excel.
      * @return object Estudiante
      * @throws \Exception Si ocurre algún error durante la validación.
      */
