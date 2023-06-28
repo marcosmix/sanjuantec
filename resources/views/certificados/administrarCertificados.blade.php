@@ -1,5 +1,6 @@
 @extends('base')
 @section('content')
+<!-- Tabla de administración de certificados.  -->
 <div class="centrar-tabla">
     <table class="tabla-certificados">
         <thead>
