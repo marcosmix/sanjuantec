@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/certificados/generarOtros', [CursosController::class, 'generarOtrosCertificados'])->name('generarOtrosCertificados');
 
     // Menú Administrar certificados de cursos
-    Route::get('/certificados', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
+    Route::get('/certificados/administrar', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
 
     /**
      * A partir de aquí, están definidas las rutas que deberán ser revisadas para ser refactorizadas, descartadas o simplemente utilizadas.
