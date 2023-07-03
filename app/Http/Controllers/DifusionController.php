@@ -117,7 +117,7 @@ class DifusionController extends Controller
                 );
             }
         }
-        // TODO - Redireccionar a la tabla de administración de certificados.
+
         return redirect()->route('administrarCertificados');
     }
 
