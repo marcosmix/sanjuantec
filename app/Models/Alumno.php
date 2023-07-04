@@ -31,7 +31,27 @@ class Alumno extends Model
             'email' => 'required|email',
             'telefono' => [
                  'nullable',
-                 'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{7})$/'
+                 'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{9,11})$/'
+                 /**
+                  * El patrón de expresión regular actualizado para teléfonos acepta los siguientes
+                  * formatos para números de teléfono en Argentina:
+                  * Números locales (sin código de país ni de área):
+                  *  De 7 a 9 dígitos de longitud, por ejemplo, 123456789, 987654321, 1234567890
+                  *
+                  *  Números con código de país:
+                  *      Comienza con +54 o 0054, seguido del formato de número local
+                  *      Ejemplos: +54123456789, 0054987654321
+                  *
+                  *  Números con código de área (incluido el código de área opcional):
+                  *      Comienza con 0, seguido de un código de área de 2, 3 o 4 dígitos, y luego
+                  * el formato de número local
+                  *      Ejemplos: 01112345678, 02234987654, 0290115415233
+                  *
+                  *  Números con código de país y de área:
+                  *      Comienza con +54 o 0054, seguido del código de área y luego el formato de
+                  * número local
+                  *      Ejemplos: +541112345678, 005402234987654, +54290115415233
+                  */
             ]
         ]);
 
@@ -48,6 +68,8 @@ class Alumno extends Model
             $numeroFila++;
             return ['error' => $mensajeError];
         }
+
+        $numeroFila++;
 
         return $alumno;
     /**
@@ -97,11 +119,11 @@ class Alumno extends Model
         ];
     /**
     * Este método se encarga de cargar una lista de alumnos en el sistema.
-    * Recibe como parámetro un arreglo de alumnos.
+    * Recibe como parámetro una matriz de alumnos.
     *
     * El método realiza las siguientes acciones:
     *  - Inicializa contadores para el número de alumnos actualizados y creados.
-    *  - Recorre cada elemento del arreglo de alumnos.
+    *  - Recorre cada elemento de la matriz de alumnos.
     *  - Intenta encontrar un registro de alumno existente en la base de datos utilizando el campo 'documento'.
     *  - Si se encuentra un registro existente, se actualiza con los datos en $alumno y se incrementa el contador
     * de alumnos actualizados.
