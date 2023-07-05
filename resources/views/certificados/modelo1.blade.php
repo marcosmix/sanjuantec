@@ -140,7 +140,7 @@
             <p class="prefijo" >Por el presente certificamos que</p>
             <p class="datosAlumno">
                 <span class="datosAlumno__nombre">{{$datos['estudiante']['nombre']}} {{$datos['estudiante']['apellido']}}</span>
-                <span class="datosAlumno__dni"> DNI {{$datos['estudiante']['dni']}}</span>
+                <span class="datosAlumno__dni"> DNI {{$datos['estudiante']['documento']}}</span>
             </p>
             <section class="contenedor-texto">
                 <p>{{$datos['curso']['texto']}}"{{$datos['curso']['nombre']}}", con una duración de {{$datos['curso']['duracion']}}, perteneciente <span id="nombre_subprograma">{{$datos['curso']['bloque']}}</span>, organizado por San Juan Tec 2022.</p>

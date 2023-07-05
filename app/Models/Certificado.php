@@ -27,7 +27,7 @@ class Certificado extends Model
             'estudiante' => [
                 'nombre' => $estudiante->nombre,
                 'apellido' => $estudiante->apellido,
-                'dni' => $estudiante->dni
+                'documento' => $estudiante->documento
             ]
         ];
 
