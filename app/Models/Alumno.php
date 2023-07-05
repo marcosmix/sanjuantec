@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class Alumno extends Model
 {
-    protected $fillable = ['nombre', 'apellido', 'documento', 'email', 'telefono'];
+    protected $fillable = ['nombre', 'apellido', 'documento', 'telefono', 'email'];
     protected $table = "alumnos_admin";
     use HasFactory;
 
@@ -133,6 +133,39 @@ class Alumno extends Model
     * @author Leandro Brizuela
     * @param array $alumnos Arreglo que contiene los datos de los alumnos a cargar.
     * @return array Estadísticas de la carga de alumnos, incluyendo el número de alumnos creados y actualizados.
+    **/
+    }
+
+    public function cargarAlumno (array $alumno)
+    {
+        $accionFinal = "N/A";
+
+        try {
+            // Intentar encontrar el registro por 'documento'. Actualizar registro.
+            $alumnoExistente = self::where('documento', $alumno['documento'])->firstOrFail();
+            $alumnoExistente->update($alumno);
+            $accionFinal = "Registro actualizado.";
+        } catch (ModelNotFoundException $exception) {
+            // No se encontró ningún registro con el número de 'documento'. Se creará un nuevo registro.
+            self::create($alumno);
+            $accionFinal = "Nuevo registro creado.";
+        }
+
+        return $accionFinal;
+    /**
+    * Este método se encarga de cargar un alumno en el sistema.
+    * Recibe como parámetro una matriz de alumnos.
+    *
+    * El método realiza las siguientes acciones:
+    *  - Intenta encontrar un registro de alumno existente en la base de datos utilizando el campo 'documento'.
+    *  - Si se encuentra un registro existente, se actualiza con los datos en $alumno y se incrementa el contador
+    * de alumnos actualizados.
+    *  - Si no se encuentra ningún registro con el número de 'documento', se crea un nuevo registro con los datos
+    * del alumno y se incrementa el contador de alumnos creados.
+    *  - Retorna un escueto mensaje que indicará si los datos han sido actualizados o creados.
+    * @author Leandro Brizuela
+    * @param array $alumnos Arreglo que contiene los datos de los alumnos a cargar.
+    * @return string $accionFinal Cadena de caracteres que indica si un nuevo registro ha sido creado o actualizado.
     **/
     }
 }
