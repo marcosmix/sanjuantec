@@ -40,7 +40,7 @@ trait gpdf
         }
 
         // Guardar el archivo PDF en la ruta especificada.
-        $locacionArchivo = $directorio . $datos['estudiante']['dni'] . '.pdf';
+        $locacionArchivo = $directorio . $datos['estudiante']['documento'] . '.pdf';
         file_put_contents($locacionArchivo, $output);
 
         // Devolver el archivo PDF como una respuesta descargable.
