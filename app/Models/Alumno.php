@@ -33,7 +33,7 @@ class Alumno extends Model
                  'nullable',
                  'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{9,11})$/'
                  /**
-                  * El patrón de expresión regular actualizado para teléfonos acepta los siguientes
+                  * El patrón de expresión regular para teléfonos acepta los siguientes
                   * formatos para números de teléfono en Argentina:
                   * Números locales (sin código de país ni de área):
                   *  De 7 a 9 dígitos de longitud, por ejemplo, 123456789, 987654321, 1234567890
