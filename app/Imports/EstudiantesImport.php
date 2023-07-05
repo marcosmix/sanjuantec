@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Estudiante;
+use App\Models\Alumno;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -19,7 +19,7 @@ class EstudiantesImport implements ToModel, WithValidation
         return [
             'nombre' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Nombre
             'apellido' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Apellido
-            'documento' => 'required|numeric', // DNI
+            'documento' => 'required|numeric', // Documento
             'telefono' => [
                  'nullable',
                  'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{9,11})$/'
@@ -85,14 +85,17 @@ class EstudiantesImport implements ToModel, WithValidation
             $numeroFila++;
             return ['error' => $mensajeError];
         } //TODO BEGIN Aquí puede ir la inserción/actualización de registros de alumnos_admin (base de datos).
+        $alumnoModel = new Alumno();
+        $alumnoModel->cargarAlumno($alumno);
         // END
 
         // Crear nuevo objeto con datos que serán utilizados para la creación de certificados.
-        $estudiante = new Estudiante([
+
+        $estudiante = new Alumno([
             'nombre' => $alumno['nombre'],
             'apellido' => $alumno['apellido'],
-            'dni' => $alumno['documento'],
-            'celular' => $alumno['telefono'],
+            'documento' => $alumno['documento'],
+            'telefono' => $alumno['telefono'],
             'email' => $alumno['email']
         ]);
 
