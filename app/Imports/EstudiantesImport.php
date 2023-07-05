@@ -17,14 +17,34 @@ class EstudiantesImport implements ToModel, WithValidation
     public function rules(): array
     {
         return [
-            '0' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Nombre
-            '1' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Apellido
-            '2' => 'required|numeric', // DNI
-            '3' => [
+            'nombre' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Nombre
+            'apellido' => ['nullable', 'regex:/^[\pL\s]+$/u'], // Apellido
+            'documento' => 'required|numeric', // DNI
+            'telefono' => [
                  'nullable',
-                 'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{7})$/'
-            ], // Celular
-            '4' => 'required|email' // E-mail
+                 'regex:/^(?:(?:\+|00)54|0)?(\d{2,4})?(\d{9,11})$/'
+                 /**
+                  * El patrón de expresión regular para teléfonos acepta los siguientes
+                  * formatos para números de teléfono en Argentina:
+                  * Números locales (sin código de país ni de área):
+                  *  De 7 a 9 dígitos de longitud, por ejemplo, 123456789, 987654321, 1234567890
+                  *
+                  *  Números con código de país:
+                  *      Comienza con +54 o 0054, seguido del formato de número local
+                  *      Ejemplos: +54123456789, 0054987654321
+                  *
+                  *  Números con código de área (incluido el código de área opcional):
+                  *      Comienza con 0, seguido de un código de área de 2, 3 o 4 dígitos, y luego
+                  * el formato de número local
+                  *      Ejemplos: 01112345678, 02234987654, 0290115415233
+                  *
+                  *  Números con código de país y de área:
+                  *      Comienza con +54 o 0054, seguido del código de área y luego el formato de
+                  * número local
+                  *      Ejemplos: +541112345678, 005402234987654, +54290115415233
+                  */
+            ], // Teléfono
+            'email' => 'required|email' // E-mail
         ];
     /**
      * Esta función utiliza las reglas de validación que son empleadas por la función model().
@@ -40,20 +60,40 @@ class EstudiantesImport implements ToModel, WithValidation
     public function model (array $fila)
     {
         static $numeroFila = 1; // Contador de filas.
-        $validacion = Validator::make($fila, $this->rules());
 
-        if ($validacion->fails()) {
-            $mensajeError = 'Fila inválida de datos. Revisar la siguiente fila en el archivo (número de fila: ' . $numeroFila . '): ' . print_r($fila, true);
-            $numeroFila++;
-            return ['error' => $mensajeError];
-        }
-
-        $estudiante = new Estudiante([
+        // Conforma matriz de datos para validar y luego cargar o actualizar datos de alumno según el documento.
+        $alumno = [
             'nombre' => mb_convert_case($fila[0], MB_CASE_TITLE, 'UTF-8'),
             'apellido' => mb_convert_case($fila[1], MB_CASE_TITLE, 'UTF-8'),
-            'dni' => $fila[2],
-            'celular' => $fila[3],
+            'documento' => $fila[2],
+            'telefono' => $fila[3],
             'email' => $fila[4]
+        ];
+
+        // Validar datos.
+        $validacion = Validator::make($alumno, $this->rules());
+
+        if ($validacion->fails()) {
+            $mensajeError = 'Fila inválida de datos. Revisar la siguiente fila en el archivo';
+            $mensajeError .= ' (número de fila: ' . $numeroFila . '): ';
+            $mensajeError .= $alumno['nombre'] .', '. $alumno['apellido'] .', '. $alumno['documento'] .', '. $alumno['email'] .', '. $alumno['telefono'];
+            $mensajeError .= ':';
+            foreach ($validacion->errors()->all() as $error) {
+                $mensajeError .= ' ' . $error;
+            }
+
+            $numeroFila++;
+            return ['error' => $mensajeError];
+        } //TODO BEGIN Aquí puede ir la inserción/actualización de registros de alumnos_admin (base de datos).
+        // END
+
+        // Crear nuevo objeto con datos que serán utilizados para la creación de certificados.
+        $estudiante = new Estudiante([
+            'nombre' => $alumno['nombre'],
+            'apellido' => $alumno['apellido'],
+            'dni' => $alumno['documento'],
+            'celular' => $alumno['telefono'],
+            'email' => $alumno['email']
         ]);
 
         $numeroFila++;
@@ -65,8 +105,7 @@ class EstudiantesImport implements ToModel, WithValidation
      * Se optó por normalizar el nombre y apellido con mayúscula en la primera letra, utilizando el método mb_convert_case().
      * @author Marcos Caballero, Leandro Brizuela.
      * @param array $fila Fila del archivo excel.
-     * @return object Estudiante
-     * @throws \Exception Si ocurre algún error durante la validación.
+     * @return object Estudiante || array Matriz con mensajes de error de validación.
      */
     }
 
