@@ -84,13 +84,15 @@ class EstudiantesImport implements ToModel, WithValidation
 
             $numeroFila++;
             return ['error' => $mensajeError];
-        } //TODO BEGIN Aquí puede ir la inserción/actualización de registros de alumnos_admin (base de datos).
+        }
+
+        // Insertar/actualizar registro de la tabla alumnos_admin (base de datos).
         $alumnoModel = new Alumno();
         $alumnoModel->cargarAlumno($alumno);
-        // END
 
         // Crear nuevo objeto con datos que serán utilizados para la creación de certificados.
-
+        // Se instancia nuevamente el modelo Alumno, ya que la instancia anterior es dedicada a operaciones
+        // en la base de datos, mientras que la siguiente instancia es dedicada a la generación de certificados.
         $estudiante = new Alumno([
             'nombre' => $alumno['nombre'],
             'apellido' => $alumno['apellido'],
