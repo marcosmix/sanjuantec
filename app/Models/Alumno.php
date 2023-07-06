@@ -2,16 +2,43 @@
 
 namespace App\Models;
 
+use App\Models\Certificado;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class Alumno extends Model
 {
     protected $fillable = ['nombre', 'apellido', 'documento', 'telefono', 'email'];
     protected $table = "alumnos_admin";
     use HasFactory;
+
+    public function certificados()
+    {
+        return $this->hasMany(Certificado::class, 'id_alumno');
+    /**
+    * Este método establece la relación "hasMany" entre el modelo actual y el modelo Certificado.
+    * Indica que un objeto de este modelo tiene múltiples instancias de Certificado relacionadas
+    * a través del campo 'id_alumno'.
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany La relación "hasMany" entre el modelo
+    * actual y el modelo Certificado.
+    */
+    }
+
+    public function obtenerIdAlumnoPorDocumento ($documento)
+    {
+        $alumno = DB::table('alumnos_admin')
+            ->where('documento', $documento)
+            ->first();
+
+        if ($alumno) {
+            return $alumno->id;
+        } else {
+            return false;
+        }
+    }
 
     public function prepararCargaAlumno ($alumno)
     {
