@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Alumno;
 use App\Models\Certificado;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -40,18 +41,19 @@ class ProcesarCertificado implements ShouldQueue
         $listadoDatos = $this->listado;
         $lotes = array_chunk($listadoDatos, $tamañoLote);
         $certificado = new Certificado();
+        $alumnoModel = new Alumno();
 
         foreach ($lotes as $lote) {
-            $certificados = [];
-
             foreach ($lote as $estudiante) {
-                $certificadoGenerado = $certificado->generarCertificadosPorCurso($cursoDatos, $estudiante);
-                $certificados[] = $certificadoGenerado;
-            }
+                // Generar certificado en formato pdf.
+                $rutaGenerada = $certificado->generarCertificadosPorCurso($cursoDatos, $estudiante);
+                $idAlumno = $alumnoModel->obtenerIdAlumnoPorDocumento($estudiante->documento);
 
-            // TODO Procesar el lote (ej., guardar los certificados en la base de datos)
-            // Ejemplo:
-            // self::insert($certificados);
+                if (($rutaGenerada) && ($idAlumno)) {
+                    // Insertar o actualizar datos de un certificado en la base de datos.
+                    $certificado->crearOActualizarCertificado($idAlumno, $rutaGenerada);
+                }
+            }
         }
     }
 }
