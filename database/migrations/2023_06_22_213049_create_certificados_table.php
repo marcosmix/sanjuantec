@@ -14,13 +14,12 @@ return new class extends Migration
     public function up()
     {
        Schema::create('certificados', function (Blueprint $table) {
-            $table->uuid('UUID', 5);
+            $table->string('id', 5)->primary();
             $table->foreignId('id_alumno')->constrained('alumnos_admin');
             $table->string('directorio');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
