@@ -20,6 +20,11 @@ trait rutas
         return $this->raiz.$curso['nombre'].DIRECTORY_SEPARATOR;
     }
 
+    public function RutaCarpetaYArchivo ($rutaCarpeta, $documento)
+    {
+        return $rutaCarpeta.$documento.".pdf";
+    }
+
     public function RutaCarpetaStoragePublic ($curso, $estudiante)
     {
         return 'storage'.DIRECTORY_SEPARATOR.$this->raiz . $curso['nombre'].DIRECTORY_SEPARATOR. strval($estudiante['dni']).".pdf";
