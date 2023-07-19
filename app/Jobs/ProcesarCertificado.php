@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Helpers\gpdf;
 use App\Models\Alumno;
 use App\Models\Certificado;
 use Illuminate\Bus\Queueable;
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class ProcesarCertificado implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, gpdf;
 
     public $curso;
     public $listado;
@@ -23,7 +24,7 @@ class ProcesarCertificado implements ShouldQueue
      *
      * @return void
      */
-    public function __construct ($curso, $listado)
+    public function __construct($curso, $listado)
     {
         $this->curso = $curso;
         $this->listado = $listado;
@@ -40,20 +41,35 @@ class ProcesarCertificado implements ShouldQueue
         $cursoDatos = $this->curso;
         $listadoDatos = $this->listado;
         $lotes = array_chunk($listadoDatos, $tamañoLote);
-        $certificado = new Certificado();
         $alumnoModel = new Alumno();
+        $certificadoModel = new Certificado();
 
-        foreach ($lotes as $lote) {
-            foreach ($lote as $estudiante) {
+        // Obtener IDs de todos los alumnos.
+        $documentos = array_column($listadoDatos, 'documento');
+        $idAlumnos = $alumnoModel->obtenerIdsAlumnosPorDocumentos($documentos);
+
+        foreach ($lotes as $lote) :
+            // 'Limpiar' matriz para el lote siguiente.
+            $certificados = [];
+
+            foreach ($lote as $estudiante) :
+
                 // Generar certificado en formato pdf.
-                $rutaGenerada = $certificado->generarCertificadosPorCurso($cursoDatos, $estudiante);
-                $idAlumno = $alumnoModel->obtenerIdAlumnoPorDocumento($estudiante->documento);
+                $directorioCompleto = $this->generarCertificadoCursoAlumno($cursoDatos, $estudiante);
 
-                if (($rutaGenerada) && ($idAlumno)) {
-                    // Insertar o actualizar datos de un certificado en la base de datos.
-                    $certificado->crearOActualizarCertificado($idAlumno, $rutaGenerada);
+                $idAlumno = $idAlumnos[$estudiante->documento] ?? null;
+
+                if ($directorioCompleto && $idAlumno) {
+                    $certificados[] = [
+                        'idAlumno' => $idAlumno,
+                        'directorioCompleto' => $directorioCompleto
+                    ];
                 }
-            }
-        }
+            endforeach;
+
+            // Insertar o actualizar datos de certificados en la base de datos.
+            $certificadoModel->crearOActualizarCertificados($certificados);
+
+        endforeach;
     }
 }
