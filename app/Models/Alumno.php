@@ -40,6 +40,22 @@ class Alumno extends Model
         }
     }
 
+    public function obtenerIdsAlumnosPorDocumentos(array $documentos)
+    {
+        $alumnos = DB::table('alumnos_admin')
+            ->whereIn('documento', $documentos)
+            ->get();
+
+        $idAlumnos = [];
+
+        foreach ($alumnos as $alumno) {
+            $idAlumnos[$alumno->documento] = $alumno->id;
+        }
+
+        return $idAlumnos;
+    }
+
+
     public function prepararCargaAlumno ($alumno)
     {
         static $numeroFila = 1; // Contador de filas.
