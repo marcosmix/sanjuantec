@@ -5,7 +5,8 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\helpers\rutas;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\rutas;
 
 class CertificadosMail extends Mailable
 {
@@ -22,26 +23,33 @@ class CertificadosMail extends Mailable
 
     public function build()
     {
-        $curso = $this->curso['nombre'];
-        $dniEstudiante = $this->estudiante->dni;
-        $estudianteArray = $this->estudiante->toArray(); // Esta conversión de objeto a matriz es necesaria
-        // para la generación de la rutaArchivoAdjunto.
+        $matrizCurso['nombre'] = $this->curso['nombre'];
+        $matrizEstudiante['documento'] = $this->estudiante->documento;
 
-        $rutaArchivoAdjunto = public_path($this->GenerarRutaPDF($this->curso, $estudianteArray));
+        $rutaArchivoAdjunto = $this->RutaCarpetaStoragePublic($matrizCurso, $matrizEstudiante);
 
-        // Verificación de archivo de certificado .pdf
+        // Verificación de archivo de certificado .pdf.
         if (!file_exists($rutaArchivoAdjunto)) {
             dd("El archivo adjuntable no ha sido encontrado en el directorio: " . $rutaArchivoAdjunto);
         }
 
-        // Envío de email
-        return $this->from('sanjuantec@sjtec.com', 'San Juan Tec')
+        $rutaStorageRelativa = $this->RutaCarpetaYArchivo($matrizCurso, $matrizEstudiante);
+
+        // Envío de email.
+        $this->from('sanjuantec@sjtec.com', 'San Juan Tec')
             ->view('mail.certificado')
             ->subject('San Juan Tec')
             ->replyTo('sanjuantec@sjtec.com', 'SAN JUAN TEC')
-            ->attach($rutaArchivoAdjunto, [
-                'as' => $this->NombreArchivoPDF($this->estudiante),
+            ->attachFromStorageDisk('public', $rutaStorageRelativa, $this->nombreArchivoPdfEmail($matrizCurso['nombre'], $this->estudiante), [
                 'mime' => 'application/pdf'
             ]);
+
+        return;
+    }
+
+    public function nombreArchivoPdfEmail ($curso, $estudiante)
+    {
+        $nombreArchivoPDF = "Certificado del curso de {$curso} - {$estudiante->nombre} {$estudiante->apellido}";
+        return $nombreArchivoPDF;
     }
 }
