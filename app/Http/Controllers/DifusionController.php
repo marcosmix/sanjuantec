@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Jobs\ProcesarCertificado;
+use App\Jobs\EnviarEmailJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\MailTec;
@@ -107,15 +108,10 @@ class DifusionController extends Controller
         // Obtener mensaje.
         $mensaje = MensajesContainer::difusionMarketing();
 
-        // Envío iterativo de emails con certificados.
-        if ((isset($request->enviarEmail) && ($request->enviarEmail == true))) {
-            foreach ($listado as $estudiante) {
-                MailTec::EnviarMailCertificados(
-                    $estudiante,
-                    $curso,
-                    $mensaje
-                );
-            }
+        // Envío, en segundo plano e iterativo, de emails con certificados.
+        if ((isset($request->enviarEmail)) && ($request->enviarEmail == true)) {
+            $tarea = new EnviarEmailJob($curso, $mensaje, $listado);
+            dispatch($tarea);
         }
 
         return redirect()->route('administrarCertificados');
