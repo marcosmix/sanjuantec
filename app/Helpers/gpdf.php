@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Helpers\rutas;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Support\Facades\Storage;
@@ -9,7 +10,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 trait gpdf
 {
-    public function generarPDF ($datos, $vista, $horizontal = false, $url)
+    use rutas;
+
+    public function generarPDF ($datos, $vista, $horizontal = false, $directorio)
     {
         // Inicializar Dompdf con opciones.
         $options = new Options();
@@ -31,20 +34,19 @@ trait gpdf
         $dompdf->render();
 
         // Obtener el PDF resultante.
-        $output = $dompdf->output();
+        $pdf = $dompdf->output();
 
         // Crear el directorio si no existe aún.
-        $directorio = public_path($url);
         if (!file_exists($directorio)) {
             mkdir($directorio, 0755, true);
         }
 
         // Guardar el archivo PDF en la ruta especificada.
         $locacionArchivo = $directorio . $datos['estudiante']['documento'] . '.pdf';
-        file_put_contents($locacionArchivo, $output);
+        file_put_contents($locacionArchivo, $pdf);
 
         // Devolver el archivo PDF como una respuesta descargable.
-        return response()->download($locacionArchivo);
+        return $locacionArchivo;
     /**
      * Método requerido para la conformación y guardado de certificados PDF.
      * @Autores: Marcos Caballero, Leandro Brizuela.
@@ -60,8 +62,54 @@ trait gpdf
      */
     }
 
+    public function generarCertificadoCursoAlumno ($curso, // Array
+                                                 $estudiante // Object
+                                                 )
+    {
+        $datos = [
+            'curso' => [
+                'nombre' => $curso['nombre'],
+                'texto' => $curso['texto'],
+                'duracion' => $curso['duracion'],
+                'bloque' => $curso['bloque'],
+                'fecha' => $curso['fecha']
+            ],
+            'estudiante' => [
+                'nombre' => $estudiante->nombre,
+                'apellido' => $estudiante->apellido,
+                'documento' => $estudiante->documento
+            ]
+        ];
 
+        $rutaGenerada = $this->RutaCarpetaStorage($curso);
 
+        $rutaCompleta = $this->generarPDF(
+            $datos, // Datos para conformar el certificado.
+            "certificados.modelo1", // Vista blade del certificado.
+            true, // Determina si la hoja está orientada horizontalmente (True si será horizontal).
+            $rutaGenerada // Directorio de ubicación.
+        );
+
+        return $rutaCompleta; // TODO BEGIN La ruta absoluta es la guardada en la base de datos. ¿Esto es correcto? END
+    /**
+     * Este método conforma la estructura de datos necesaria para generar un certificado en formato PDF.
+     * TODO BEGIN
+     * La vista Blade utilizada como plantilla general es certificados.modelo1. Es posible que una nueva vista
+     * sea requerida para la generación de nuevos certificados END
+     * @name generarCertificadosPorCurso()
+     * @author Leandro Brizuela.
+     * @param array $curso Matriz con datos de un curso.
+     * @param object $estudiante Objeto de datos con los datos de cada alumno/destinatario.
+     * @return bool True si no ocurrió una interrupción inesperada.
+     */
+    }
+
+    /**
+     * @author Leandro Brizuela
+     * @date 17 de julio de 2023.
+     * @name generarCertificadoJam()
+     * La función permanecerá comentada hasta nuevo aviso.
+     */
     // public function generarCertificadoJam($nombre_proyecto)
     // {
 
