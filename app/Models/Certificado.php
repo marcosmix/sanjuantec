@@ -6,13 +6,12 @@ use App\Models\Alumno;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use App\Helpers\gpdf;
-use App\Helpers\rutas;
 
 class Certificado extends Model
 {
-    use HasFactory, gpdf, rutas;
+    use HasFactory;
 
     protected $fillable = [
         'id',
@@ -20,7 +19,7 @@ class Certificado extends Model
         'directorio'
     ];
 
-    public function alumno()
+    public function alumno ()
     {
         return $this->belongsTo(Alumno::class, 'id_alumno');
     /**
@@ -29,6 +28,18 @@ class Certificado extends Model
      * del campo 'id_alumno'.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo La relación "belongsTo" entre el
      * modelo actual y el modelo Alumno.
+     */
+    }
+
+    public function curso ()
+    {
+        return $this->belongsTo(Curso::class, 'id_curso', 'id');
+    /**
+     * Este método establece la relación "belongsTo" entre el modelo actual y el modelo Curso.
+     * Indica que un objeto de este modelo pertenece a una instancia de Curso relacionada a través
+     * del campo 'id_curso'.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo La relación "belongsTo" entre el
+     * modelo actual y el modelo Curso.
      */
     }
 
@@ -60,45 +71,24 @@ class Certificado extends Model
         }
     }
 
-    public function generarCertificadosPorCurso ($curso, // Array
-                                                 $estudiante // Object
-                                                 )
+    public function crearOActualizarCertificados ($certificados)
     {
-        $datos = [
-            'curso' => [
-                'nombre' => $curso['nombre'],
-                'texto' => $curso['texto'],
-                'duracion' => $curso['duracion'],
-                'bloque' => $curso['bloque'],
-                'fecha' => $curso['fecha']
-            ],
-            'estudiante' => [
-                'nombre' => $estudiante->nombre,
-                'apellido' => $estudiante->apellido,
-                'documento' => $estudiante->documento
-            ]
-        ];
+        DB::beginTransaction();
 
-        $rutaGenerada = $this->RutaCarpeta($curso);
+        try {
+            foreach ($certificados as $certificado) {
+                $id = Str::random(5);
+                $idAlumno = $certificado['idAlumno'];
+                $directorioCompleto = $certificado['directorioCompleto'];
 
-        $descargable = $this->generarPDF(
-            $datos, // Datos para conformar el certificado.
-            "certificados.modelo1", // Vista blade del certificado.
-            true, // Determina si la hoja está orientada horizontalmente (True si será horizontal).
-            $rutaGenerada // Directorio de ubicación.
-        );
-
-        return $this->RutaCarpetaYArchivo($rutaGenerada, $estudiante->documento);
-    /**
-     * Este método conforma la estructura de datos necesaria para generar un certificado en formato PDF.
-     * TODO BEGIN
-     * La vista Blade utilizada como plantilla general es certificados.modelo1. Es posible que una nueva vista
-     * sea requerida para la generación de nuevos certificados END
-     * @name generarCertificadosPorCurso()
-     * @author Leandro Brizuela.
-     * @param array $curso Matriz con datos de un curso.
-     * @param object $estudiante Objeto de datos con los datos de cada alumno/destinatario.
-     * @return bool True si no ocurrió una interrupción inesperada.
-     */
+                Certificado::updateOrCreate(['id_alumno' => $idAlumno],
+                                            ['id' => $id, 'directorio' => $directorioCompleto]
+               );
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 }
