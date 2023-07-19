@@ -16,6 +16,7 @@ class Certificado extends Model
     protected $fillable = [
         'id',
         'id_alumno',
+        'id_curso',
         'directorio'
     ];
 
@@ -71,7 +72,7 @@ class Certificado extends Model
         }
     }
 
-    public function crearOActualizarCertificados ($certificados)
+    public function crearOActualizarCertificados ($certificados, $idCurso)
     {
         DB::beginTransaction();
 
@@ -82,7 +83,9 @@ class Certificado extends Model
                 $directorioCompleto = $certificado['directorioCompleto'];
 
                 Certificado::updateOrCreate(['id_alumno' => $idAlumno],
-                                            ['id' => $id, 'directorio' => $directorioCompleto]
+                                            ['id' => $id,
+                                            'directorio' => $directorioCompleto,
+                                            'id_curso' => $idCurso ]
                );
             }
             DB::commit();
