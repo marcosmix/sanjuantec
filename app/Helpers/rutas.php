@@ -1,13 +1,14 @@
 <?php
 namespace App\Helpers;
+use Illuminate\Support\Facades\Storage;
 
 trait rutas
 {
     protected $raiz='certificados'.DIRECTORY_SEPARATOR;
 
-    public function GenerarRutaPDF ($curso, $estudiante)
+    public function GenerarRutaPDF ($curso, $documento)
     {
-        return $this->raiz. $curso['nombre'].DIRECTORY_SEPARATOR. strval($estudiante['dni']) . ".pdf";
+        return $this->raiz. $curso['nombre'].DIRECTORY_SEPARATOR. $documento . ".pdf";
     }
 
     public function GenerarRutaPDFv2 ($carpeta, $pdf)
@@ -20,24 +21,27 @@ trait rutas
         return $this->raiz.$curso['nombre'].DIRECTORY_SEPARATOR;
     }
 
-    public function RutaCarpetaYArchivo ($rutaCarpeta, $documento)
+    public function RutaCarpetaYArchivo ($curso, $estudiante)
     {
-        return $rutaCarpeta.$documento.".pdf";
+        return $this->raiz.$curso['nombre'].DIRECTORY_SEPARATOR.$this->NombreArchivoPDF($estudiante);
     }
 
     public function RutaCarpetaStoragePublic ($curso, $estudiante)
     {
-        return 'storage'.DIRECTORY_SEPARATOR.$this->raiz . $curso['nombre'].DIRECTORY_SEPARATOR. strval($estudiante['dni']).".pdf";
+        $nombreArchivo = strval($estudiante['documento']) . '.pdf';
+        $directorio = Storage::disk('public')->path($this->raiz) . $curso['nombre'] . DIRECTORY_SEPARATOR . $nombreArchivo;
+        return $directorio;
     }
 
     public function RutaCarpetaStorage ($curso)
     {
-        return 'storage'.DIRECTORY_SEPARATOR.$this->raiz . $curso['nombre'].DIRECTORY_SEPARATOR;
+        $directorio = Storage::disk('public')->path($this->raiz) . $curso['nombre'] . DIRECTORY_SEPARATOR;
+        return $directorio;
     }
 
     public function NombreArchivoPDF ($estudiante)
     {
-        return strval($estudiante['dni']).".pdf";
+        return strval($estudiante['documento']).".pdf";
     }
 }
 
