@@ -84,7 +84,7 @@ class CertificadoController extends Controller
             ];
 
         $this->generarPDF($datos,
-            'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante'])
+            'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante']['dni'])
         );
 
         return view("certificados.mod1", compact("datos"));
@@ -103,7 +103,7 @@ class CertificadoController extends Controller
                 ["estudiante" => $e, "curso" => $curso],
                 "certificados.mod1",
                 true,
-                $this->GenerarRutaPDF($curso, $e)
+                $this->GenerarRutaPDF($curso, $e["dni"])
             );
         }
     }
