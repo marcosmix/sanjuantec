@@ -16,6 +16,7 @@ return new class extends Migration
        Schema::create('certificados', function (Blueprint $table) {
             $table->string('id', 5)->primary();
             $table->foreignId('id_alumno')->constrained('alumnos_admin');
+            $table->foreignId('id_curso')->constrained('cursos');
             $table->string('directorio');
             $table->timestamps();
         });
