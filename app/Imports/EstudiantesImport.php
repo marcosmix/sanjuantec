@@ -65,8 +65,8 @@ class EstudiantesImport implements ToModel, WithValidation
         $alumno = [
             'nombre' => mb_convert_case($fila[0], MB_CASE_TITLE, 'UTF-8'),
             'apellido' => mb_convert_case($fila[1], MB_CASE_TITLE, 'UTF-8'),
-            'documento' => $fila[2],
-            'telefono' => $fila[3],
+            'documento' => strval($fila[2]),
+            'telefono' => strval($fila[3]),
             'email' => $fila[4]
         ];
 
