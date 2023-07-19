@@ -68,7 +68,7 @@ class ProcesarCertificado implements ShouldQueue
             endforeach;
 
             // Insertar o actualizar datos de certificados en la base de datos.
-            $certificadoModel->crearOActualizarCertificados($certificados);
+            $certificadoModel->crearOActualizarCertificados($certificados, $cursoDatos['id']);
 
         endforeach;
     }
