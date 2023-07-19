@@ -18,7 +18,6 @@ class MailTec
         );
     }
 
-
     static function EnviarCuentasCursatec($estudiante)
     {
         Mail::to($estudiante["email"])->send(new CursatecMail($estudiante));
