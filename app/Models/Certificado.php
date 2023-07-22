@@ -32,6 +32,18 @@ class Certificado extends Model
      */
     }
 
+    public function mailEnviado ()
+    {
+        return $this->hasOne(MailEnviado::class, 'id_certificado', 'id');
+    /**
+     * Relación "hasOne" con el modelo MailEnviado.
+     * Indica que un objeto de este modelo tiene una instancia asociada de la clase MailEnviado, utilizando
+     * el campo 'id_certificado' como clave foránea en el modelo MailEnviado y el campo 'id' como clave primaria
+     * en el modelo actual.
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne La relación "hasOne" con el modelo MailEnviado.
+     */
+    }
+
     public function curso ()
     {
         return $this->belongsTo(Curso::class, 'id_curso', 'id');
@@ -44,54 +56,66 @@ class Certificado extends Model
      */
     }
 
-    public function crearOActualizarCertificado ($alumnoId, $directorio)
-    {
-        $id = Str::random(5);
-
-        $accionFinal = "N/A";
-
-        if (empty($alumnoId)) {
-            return false;
-        }
-
-        $certificado = [
-            'id' => $id,
-            'id_alumno' => $alumnoId,
-            'directorio' => $directorio
-        ];
-
-        try {
-            // Intentar encontrar el registro por 'id_alumno'. Actualizar registro.
-            $certificadoExistente = self::where('id_alumno', $alumnoId)->firstOrFail();
-            $certificadoExistente->update($certificado);
-            $accionFinal = "Registro actualizado.";
-        } catch (ModelNotFoundException $exception) {
-            // No se encontró ningún registro con el número de 'documento'. Se creará un nuevo registro.
-            self::create($certificado);
-            $accionFinal = "Nuevo registro creado.";
-        }
-    }
-
     public function crearOActualizarCertificados ($certificados, $idCurso)
     {
         DB::beginTransaction();
 
         try {
             foreach ($certificados as $certificado) {
-                $id = Str::random(5);
                 $idAlumno = $certificado['idAlumno'];
                 $directorioCompleto = $certificado['directorioCompleto'];
 
-                Certificado::updateOrCreate(['id_alumno' => $idAlumno],
-                                            ['id' => $id,
-                                            'directorio' => $directorioCompleto,
-                                            'id_curso' => $idCurso ]
-               );
+                $certificadoExistente = Certificado::where('id_alumno', $idAlumno)->first();
+
+                if ($certificadoExistente) {
+                    $certificadoExistente->update([
+                        'directorio' => $directorioCompleto,
+                        'id_curso' => $idCurso
+                    ]);
+                } else {
+                    $id = Str::random(5);
+
+                    Certificado::create([
+                        'id' => $id,
+                        'id_alumno' => $idAlumno,
+                        'directorio' => $directorioCompleto,
+                        'id_curso' => $idCurso
+                    ]);
+                }
             }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
+    /**
+     * Crea o actualiza certificados para los alumnos asociados a un curso dado.
+     *
+     * Este método realiza una transacción en la base de datos para asegurar la consistencia de los datos.
+     * Recibe una matriz de certificados y el ID del curso al que pertenecen los alumnos.
+     * Por cada certificado en la matriz, verifica si el alumno ya tiene un certificado existente.
+     * Si el certificado existe, actualiza la información del directorio y el ID del curso asociado.
+     * Si el certificado no existe, crea uno nuevo con un ID generado aleatoriamente.
+     *
+     * @param array $certificados Una matriz de certificados que contiene la información de los alumnos y su directorio.
+     *                           Cada elemento de la matriz tiene las siguientes propiedades:
+     *                           - 'idAlumno': El ID del alumno asociado al certificado.
+     *                           - 'directorioCompleto': El directorio completo donde se encuentra el certificado.
+     * @param int $idCurso El ID del curso al que pertenecen los alumnos asociados a los certificados.
+     * @return void
+     *
+     * @throws \Exception Si ocurre algún error durante la transacción en la base de datos.
+     */
+    }
+
+
+    public static function obtenerIdCertificado($idAlumno, $idCurso)
+    {
+        $idCertificado = DB::table('certificados')
+            ->where('id_alumno', $idAlumno)
+            ->where('id_curso', $idCurso)
+            ->value('id');
+
+        return $idCertificado;
     }
 }
