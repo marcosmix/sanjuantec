@@ -15,7 +15,19 @@ class Alumno extends Model
     protected $table = "alumnos_admin";
     use HasFactory;
 
-    public function certificados()
+    public function mailEnviado ()
+    {
+        return $this->hasOne(MailEnviado::class, 'id_alumno', 'id');
+    /**
+    * Este método establece la relación "hasOne" entre el modelo actual y el modelo MailEnviado.
+    * Indica que un objeto de este modelo tiene una instancia de MailEnviado relacionada a través
+    * del campo 'id_alumno'.
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany La relación "hasOne" entre el modelo
+    * actual y el modelo MailEnviado.
+    */
+    }
+
+    public function certificados ()
     {
         return $this->hasMany(Certificado::class, 'id_alumno');
     /**
@@ -27,7 +39,7 @@ class Alumno extends Model
     */
     }
 
-    public function obtenerIdAlumnoPorDocumento ($documento)
+    public static function obtenerIdAlumnoPorDocumento ($documento)
     {
         $alumno = DB::table('alumnos_admin')
             ->where('documento', $documento)
