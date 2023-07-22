@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Helpers\MailTec;
+use App\Models\Certificado;
+use App\Models\MailEnviado;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,6 +44,7 @@ class EnviarEmailJob implements ShouldQueue
         $cursoDatos = $this->curso;
         $listadoDatos = $this->listado;
         $mensajeDatos = $this->mensaje;
+        $mailEnviado = new MailEnviado();
         $tamañoLote = 5; // Determina el número máximo de emails por lote.
         $lotes = array_chunk($listadoDatos, $tamañoLote);
 
@@ -52,6 +55,7 @@ class EnviarEmailJob implements ShouldQueue
                     $cursoDatos,
                     $mensajeDatos
                 );
+                $mailEnviado->guardarEmailEnviado($datos->documento, $cursoDatos['id']);
             }
         }
     }
