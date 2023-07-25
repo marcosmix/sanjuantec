@@ -58,18 +58,6 @@ class DifusionController extends Controller
         return $vistaConcatenada;
     }
 
-    public function generarCertificadosPorCurso()
-    {
-        $titulo = "Certificados de cursos";
-        $cursos = Curso::all();
-        // TODO Aquí deberán ser implementadas las siguientes funcionalidades:
-        // - El llamado a otro método que generará los certificados.
-        // - El llamado a otro método que guardará los certificados (base de datos (+ ¿pdf?)).
-        // - El llamado a otro método que enviará el certificado vía email a cada alumno de un curso determinado.
-
-        return view("difusion.enviarCertificados", compact('cursos', 'titulo'));
-    }
-
     public function EnviarCertificados (Request $request)
     {
         // Primera validación: Comprobar extensión del archivo subido.
@@ -115,6 +103,13 @@ class DifusionController extends Controller
         }
 
         return redirect()->route('administrarCertificados');
+    }
+
+    public function generarCertificadosPorCurso()
+    {
+        $titulo = "Certificados de cursos";
+        $cursos = Curso::all();
+        return view("difusion.enviarCertificadosPorCurso", compact('cursos', 'titulo'));
     }
 
     public function rowToArray($estudiante)
