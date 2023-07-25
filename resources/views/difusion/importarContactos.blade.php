@@ -8,10 +8,10 @@
             <div class="div-borde-redondeado padding-total-10px">
                 <h3>Listado de alumnos que pertenecen a este curso</h3>
                 <p><b>Formato del listado de alumnos:</b></p>
-                <p>La hoja de cálculo debe contener hasta cinco columnas: Nombre, Apellido, DNI, Celular, Correo electrónico.</p>
+                <p>La hoja de cálculo debe contener hasta cinco columnas: Nombre, Apellido, DNI, Teléfono y Correo electrónico.</p>
                 <p>Deben respetar el mismo orden y no se debe colocar encabezado. No pueden faltar los valores de las
-                columnas DNI y correo electrónico, ya que se requieren para realizar el envío.<br>
-                Los otros campos pueden estar en blanco.</p>
+                columnas de nombre, apellido, DNI y correo electrónico, ya que se requieren para realizar el envío.<br>
+                El campo de teléfono puede estar en blanco.</p>
                 <p>Se recomienda utilizar el mismo archivo con el que se generaron los certificados.</p>
 
                 @if (isset($datos['nombre']))
