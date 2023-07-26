@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
@@ -134,6 +135,32 @@ class EstudiantesImport implements ToModel, WithValidation
      * @return array $estudiantes Matriz de estudiantes.
      * @throws \Exception Si ocurre algún error durante la conversión.
      */
+    }
+
+    public static function validarYProcesarExcel (Request $request)
+    {
+        // Primera validación: Comprobar extensión del archivo subido.
+        $validacion = Validator::make($request->all(), [
+            'contactos' => 'required|file|mimes:xlsx',
+        ]);
+
+        if ($validacion->fails()) {
+            return ['errores_de_validacion' => $validacion->errors()];
+        }
+
+        // Obtener, del Excel, una matriz de alumnos destinatarios.
+        $listado = (new self())->toArray($request->file("contactos"));
+
+        // Segunda validación: Comprobar la integridad de los datos.
+        $erroresDeValidacion = [];
+
+        foreach ($listado as $estudiante) {
+            if (isset($estudiante['error'])) {
+                $erroresDeValidacion[] = $estudiante['error'];
+            }
+        }
+
+         return ['errores_de_validacion' => $erroresDeValidacion, 'listado' => $listado];
     }
 }
 

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Curso;
-use App\Jobs\ProcesarCertificado;
-use App\Jobs\EnviarEmailJob;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Helpers\MailTec;
 use App\Helpers\rutas;
-use App\Imports\EstudiantesImport;
 use App\Imports\CursatecImport;
 use App\Imports\CursatecImportFULL;
+use App\Imports\EstudiantesImport;
+use App\Jobs\EnviarEmailJob;
+use App\Jobs\ProcesarCertificado;
+use App\Models\Curso;
 use App\container\MensajesContainer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -60,29 +60,15 @@ class DifusionController extends Controller
 
     public function EnviarCertificados (Request $request)
     {
-        // Primera validación: Comprobar extensión del archivo subido.
-        $validacion = Validator::make($request->all(), [
-            'contactos' => 'required|file|mimes:xlsx',
-        ]);
+        $datos = EstudiantesImport::validarYProcesarExcel($request);
 
-        if ($validacion->fails()) {
-            return redirect()->route('plantillas')->withErrors($validacion);
+        if (!empty($datos['errores_de_validacion'])) {
+            return redirect()->route('plantillas')->withErrors($datos['errores_de_validacion']);
         }
 
-        // Obtener, del Excel, una matriz de alumnos destinatarios.
-        $listado = (new EstudiantesImport())->toArray($request->file("contactos"));
-
-        // Segunda validación: Comprobar la integridad de los datos.
-        $erroresDeValidacion = [];
-        foreach ($listado as $estudiante) {
-            if (isset($estudiante['error'])) {
-                $erroresDeValidacion[] = $estudiante['error'];
-            }
-        }
-
-        if (!empty($erroresDeValidacion)) {
-            return redirect()->route('plantillas')->withErrors($erroresDeValidacion);
-        }
+        $listado = isset($datos['listado'])
+                    ? $datos['listado']
+                    : exit('Error de '.__FUNCTION__.' ubicado en '.__FILE__.'.');
 
         // Obtener datos del curso, según su nombre.
         $curso = Curso::where("nombre", $request->curso)
