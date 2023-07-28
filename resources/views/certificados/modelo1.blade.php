@@ -154,7 +154,7 @@
             </div>
             <div class="logossj">
                 <br><br><br><br><br><br><br><br>
-                 <img class="logos" src="{{ base64ConvertirImagen(public_path('img/logos-sj.png')) }}" alt="">
+                <img class="logos" src="{{ base64ConvertirImagen(public_path('img/logos-sj.png')) }}" alt="">
             </div>
         </div>
     </body>
