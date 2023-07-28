@@ -1,4 +1,19 @@
 @include('base')
+<!-- Mensajes de error de validación en los datos ingresados en el formulario
+ de creación de curso o plantilla de certificado de curso. -->
+<div class="centrar-texto">
+    @if ($errors->any())
+        <div class="alerta alerta-error boton centrar-texto">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="listado-errores">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+</div>
+
+<!-- Formulario de creación de curso o plantilla de certificado de curso. -->
 <form class='form-curso' action="{{route('guardarPlantilla')}}" method="POST">
     @csrf
     <img src="{{asset('img/modelo.jpg')}}" alt="">
