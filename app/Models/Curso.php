@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\container\ProgramasContainer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\container\ProgramasContainer;
+use Illuminate\Support\Facades\Validator;
 
 class Curso extends Model
 {
@@ -26,5 +27,36 @@ class Curso extends Model
     public function programa()
     {
         return ProgramasContainer::ver($this->programa_id)['nombre'];
+    }
+
+    public static function validarYCrearCurso ($request)
+    {
+        $reglasValidacion = [
+            'nombre' => 'required|string|max:5',
+            'texto' => 'required|string|max:10',
+            'duracion' => 'required|string|max:5',
+            'fecha' => 'required|string|max:50',
+            'bloque' => 'required|string|max:50',
+        ];
+
+        $validacion = Validator::make($request->all(), $reglasValidacion);
+
+         if ($validacion->fails()) {
+            $mensajeError = 'Los datos ingresados no son válidos:';
+            foreach ($validacion->errors()->all() as $error) {
+                $mensajeError .= ' ' . $error;
+            }
+            return ['errores_de_validacion' => $mensajeError];
+        }
+
+        $nuevoCurso = new Curso();
+        $nuevoCurso->nombre = $request->nombre;
+        $nuevoCurso->texto = $request->texto;
+        $nuevoCurso->duracion = $request->duracion;
+        $nuevoCurso->fecha = $request->fecha;
+        $nuevoCurso->bloque = $request->bloque;
+        $nuevoCurso->save();
+
+        return $nuevoCurso;
     }
 }
