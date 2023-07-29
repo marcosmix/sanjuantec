@@ -62,8 +62,9 @@ trait gpdf
      */
     }
 
-    public function generarCertificadoCursoAlumno ($curso, // Array
-                                                 $estudiante // Object
+    public function generarCertificadoCursoAlumno ($curso, // Matriz
+                                                 $estudiante, // Objeto
+                                                 $tieneFirmas // Booleano
                                                  )
     {
         $datos = [
@@ -78,7 +79,8 @@ trait gpdf
                 'nombre' => $estudiante->nombre,
                 'apellido' => $estudiante->apellido,
                 'documento' => $estudiante->documento
-            ]
+            ],
+            'tieneFirmas' => $tieneFirmas
         ];
 
         $rutaGenerada = $this->RutaCarpetaStorage($curso);

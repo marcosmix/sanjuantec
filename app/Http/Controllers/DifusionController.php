@@ -58,7 +58,7 @@ class DifusionController extends Controller
         return $vistaConcatenada;
     }
 
-    public function EnviarCertificados (Request $request)
+    public function EnviarCertificados (Request $request, $tieneFirmas = true)
     {
         $datos = EstudiantesImport::validarYProcesarExcel($request);
 
@@ -76,7 +76,7 @@ class DifusionController extends Controller
             ->toArray();
 
         // Guardado iterativo de certificados en segundo plano, procesado por lotes.
-        $tarea = new ProcesarCertificado($curso, $listado);
+        $tarea = new ProcesarCertificado($curso, $listado, $tieneFirmas);
         dispatch($tarea);
 
         // Obtener mensaje.

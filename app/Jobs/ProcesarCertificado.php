@@ -18,16 +18,18 @@ class ProcesarCertificado implements ShouldQueue
 
     public $curso;
     public $listado;
+    public $tieneFirmas;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($curso, $listado)
+    public function __construct($curso, $listado, $tieneFirmas)
     {
         $this->curso = $curso;
         $this->listado = $listado;
+        $this->tieneFirmas = $tieneFirmas;
     }
 
     /**
@@ -55,7 +57,7 @@ class ProcesarCertificado implements ShouldQueue
             foreach ($lote as $estudiante) :
 
                 // Generar certificado en formato pdf.
-                $directorioCompleto = $this->generarCertificadoCursoAlumno($cursoDatos, $estudiante);
+                $directorioCompleto = $this->generarCertificadoCursoAlumno($cursoDatos, $estudiante, $this->tieneFirmas);
 
                 $idAlumno = $idAlumnos[$estudiante->documento] ?? null;
 
