@@ -72,7 +72,7 @@ class CertificadoController extends Controller
             "estudiante"=> [
                 'nombre' => "Marcosio Danielon",
                 'apellido' => "Caballeronn Agueriston",
-                'dni' => "35.849.098"
+                'documento' => "35.849.098"
             ],
             "curso" =>[
                 'texto' => 'ha participado del curso teorico-practico demonomidado',
@@ -80,14 +80,15 @@ class CertificadoController extends Controller
                 'subprograma' => 'perteneciente al sub programa Talento Tec',
                 'bloque' => 'programación',
                 'nombre' => ' Fundamentos de Laravel',
-                'fecha' => 'San Juan a los 25 dias de Abril de 2022']
+                'fecha' => 'San Juan a los 25 dias de Abril de 2022'],
+            "tieneFirmas" => false
             ];
 
         $this->generarPDF($datos,
-            'certificados.mod1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante']['dni'])
+            'certificados.modelo1',true,$this->GenerarRutaPDF($datos['curso'], $datos['estudiante']['documento'])
         );
 
-        return view("certificados.mod1", compact("datos"));
+        return view("certificados.modelo1", compact("datos"));
     }
 
     public function procesarEstudiantes($curso, $listado)
