@@ -49,6 +49,12 @@
             display: flex;
         }
 
+        .contenedor-img-logos-sj {
+            display: flex;
+            margin-left: 22%;
+            justify-content: right;
+        }
+
         .titular {
             display: flex;
             font-family: calibri;
@@ -148,9 +154,15 @@
             </section>
             <div class="logosTec">
                 <br><br>
-                <img class="logosTec__firmaI" src="{{ base64ConvertirImagen(public_path('img/ariel_lucero.jpg')) }}" alt="">
-                <img class="edicion" src="{{ base64ConvertirImagen(public_path('img/20222.jpg')) }}" alt="">
-                <img class="logosTec__firmaD" src="{{ base64ConvertirImagen(public_path('img/daniel_gimeno.jpg')) }}" alt="">
+                @if ($datos['tieneFirmas'] == true)
+                    <img class="logosTec__firmaI" src="{{ base64ConvertirImagen(public_path('img/ariel_lucero.jpg')) }}" alt="">
+                    <img class="edicion" src="{{ base64ConvertirImagen(public_path('img/20222.jpg')) }}" alt="">
+                    <img class="logosTec__firmaD" src="{{ base64ConvertirImagen(public_path('img/daniel_gimeno.jpg')) }}" alt="">
+                @else
+                    <div class="contenedor-img-logos-sj">
+                        <img class="edicion" src="{{ base64ConvertirImagen(public_path('img/20222.jpg')) }}" alt="">
+                    </div>
+                @endif
             </div>
             <div class="logossj">
                 <br><br><br><br><br><br><br><br>
