@@ -32,9 +32,9 @@ class Curso extends Model
     public static function validarYCrearCurso ($request)
     {
         $reglasValidacion = [
-            'nombre' => 'required|string|max:5',
-            'texto' => 'required|string|max:10',
-            'duracion' => 'required|string|max:5',
+            'nombre' => 'required|string|max:30',
+            'texto' => 'required|string|max:500',
+            'duracion' => 'required|string|max:30',
             'fecha' => 'required|string|max:50',
             'bloque' => 'required|string|max:50',
         ];
