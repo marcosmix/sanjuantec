@@ -71,9 +71,7 @@ class DifusionController extends Controller
                     : exit('Error de '.__FUNCTION__.' ubicado en '.__FILE__.'.');
 
         // Obtener datos del curso, según su nombre.
-        $curso = Curso::where("nombre", $request->curso)
-            ->first()
-            ->toArray();
+        $curso = Curso::where("nombre", $request->curso)->first()->toArray();
 
         // Guardado iterativo de certificados en segundo plano, procesado por lotes.
         $tarea = new ProcesarCertificado($curso, $listado, $tieneFirmas);
