@@ -14,7 +14,7 @@
 </div>
 
 <!-- Formulario de creación de curso o plantilla de certificado de curso. -->
-<form class='form-curso' action="{{route('guardarPlantilla')}}" method="POST">
+<form class='form-curso' action="{{ route($rutaDeAccion) }}" method="POST" enctype='multipart/form-data'>
     @csrf
     <img src="{{asset('img/modelo.jpg')}}" alt="">
     <div class="mb-3">
@@ -36,6 +36,7 @@
     <div class="mb-3">
         <label class="form-label" for="bloque">Bloque (3)</label>
     </div>
+    <input type="hidden" name="rutaDeAccion" value="{{ $rutaDeAccion }}">
     <select class="form-select" name="bloque" id="programa">
         @foreach ($programas as $p)
         <option value="{{$p['nombre']}}">{{$p['nombre']}}</option>
