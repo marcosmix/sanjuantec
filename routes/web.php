@@ -37,8 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Menú Generar otros certificados. ↓
     Route::get('/certificados/generarOtros', [CursosController::class, 'generarOtrosCertificados'])->name('generarOtrosCertificados');
+    Route::post('/certificados/crearOtros', [CursosController::class, 'guardarPlantillaYCertificados'])->name('guardarPlantillaYCertificados');
 
-    // Menú Administrar certificados de cursos
+    // Menú Administrar certificados de cursos ↓
     Route::get('/certificados/administrar', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
 
     /**
