@@ -65,7 +65,9 @@ class Certificado extends Model
                 $idAlumno = $certificado['idAlumno'];
                 $directorioCompleto = $certificado['directorioCompleto'];
 
-                $certificadoExistente = Certificado::where('id_alumno', $idAlumno)->first();
+                $certificadoExistente = Certificado::where('id_alumno', $idAlumno)
+                                          ->where('id_curso', $idCurso)
+                                          ->first();
 
                 if ($certificadoExistente) {
                     $certificadoExistente->update([
