@@ -6,7 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
     </head>
     <body>
-        <h1>Estimada/o: {{ $estudiante['nombre'] }}
+        <h1>Estimada/o:
+            @if (is_object($estudiante))
+                {{ $estudiante->nombre }}
+            @elseif (is_array($estudiante))
+                {{ $estudiante['nombre'] }}
+            @endif
         </h1>
         {{-- {{ $curso['nombre'] }} --}}
         <br>

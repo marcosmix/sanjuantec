@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/plantillas/crear', [CursosController::class, 'crearPlantilla'])->name('crearPlantilla');
     Route::post('/plantillas/crear', [CursosController::class, 'guardarPlantilla'])->name('guardarPlantilla');
     Route::post('/plantillas/generar', [DifusionController::class, 'prepararEnvioCertificados'])->name('prepararEnvioCertificados');
-    Route::post('/plantillas/enviarMailsAprobados', [DifusionController::class, 'EnviarCertificados'])->name('difusion.EnviarCertificados');
+    Route::post('/plantillas//procesarEnvio', [DifusionController::class, 'enviarCertificados'])->name('enviarCertificados');
 
     // Menú Generar certificados de cursos. ↓
     Route::get('/certificados/generar', [DifusionController::class, 'generarCertificadosPorCurso'])->name('generarCertificadosPorCurso');
@@ -38,6 +38,10 @@ Route::middleware(['auth'])->group(function () {
     // Menú Generar otros certificados. ↓
     Route::get('/certificados/generarOtros', [CursosController::class, 'generarOtrosCertificados'])->name('generarOtrosCertificados');
     Route::post('/certificados/crearOtros', [CursosController::class, 'guardarPlantillaYCertificados'])->name('guardarPlantillaYCertificados');
+
+    // Menú Generar un certificado de un/a alumno/a. ↓
+    Route::get('/certificado/alumno', [DifusionController::class, 'generarCertificadoPorAlumno'])->name('generarCertificadoPorAlumno');
+    Route::post('/certificado/crear', [DifusionController::class, 'enviarCertificadoPorAlumno'])->name('enviarCertificadoPorAlumno');
 
     // Menú Administrar certificados de cursos ↓
     Route::get('/certificados/administrar', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
