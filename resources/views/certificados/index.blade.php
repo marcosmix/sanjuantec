@@ -16,7 +16,7 @@
         <a href="{{ route('generarOtrosCertificados') }}">Generar otros certificados</a>
     </div>
     <div class="cuadrado cuadrado-4">
-        <a href="#">Generar un certificado de un/a alumno/a</a>
+        <a href="{{ route('generarCertificadoPorAlumno') }}">Generar un certificado de un/a alumno/a</a>
     </div>
 </div>
 <br><br>
