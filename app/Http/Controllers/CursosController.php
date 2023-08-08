@@ -32,10 +32,7 @@ class CursosController extends Controller
          $programas = ProgramasContainer::listar();
          $rutaDeAccion = 'guardarPlantillaYCertificados';
          $titulo = "Crear Plantilla de Curso";
-         // TODO: Utilizar la vista 'crearPlantilla', pero con una nueva ruta hacia un controlador
-         // que maneje la funcionalidad de creación de plantillas y certificados. Sí, puede que haya un poco
-         // de repetición de código, pero esto nos ayudará a reutilizar la vista 'crearPlantilla'con una ruta
-         // de formulario personalizada.
+
          return view("cursos.crearPlantilla", compact('importarListado', 'programas', 'rutaDeAccion', 'titulo'));
     }
 
