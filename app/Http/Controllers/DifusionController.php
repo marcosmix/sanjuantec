@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\gpdf;
 use App\Helpers\MailTec;
 use App\Helpers\rutas;
 use App\Imports\CursatecImport;
@@ -9,8 +10,12 @@ use App\Imports\CursatecImportFULL;
 use App\Imports\EstudiantesImport;
 use App\Jobs\EnviarEmailJob;
 use App\Jobs\ProcesarCertificado;
+use App\Models\Alumno;
+use App\Models\Certificado;
 use App\Models\Curso;
+use App\Models\MailEnviado;
 use App\container\MensajesContainer;
+use App\container\ProgramasContainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +23,7 @@ use Illuminate\Validation\Rule;
 
 class DifusionController extends Controller
 {
-    use rutas;
+    use rutas, gpdf;
 
     public function index()
     {
@@ -58,7 +63,7 @@ class DifusionController extends Controller
         return $vistaConcatenada;
     }
 
-    public function EnviarCertificados (Request $request, $tieneFirmas = true)
+    public function enviarCertificados (Request $request, $tieneFirmas = true)
     {
         $datos = EstudiantesImport::validarYProcesarExcel($request);
 
@@ -81,7 +86,7 @@ class DifusionController extends Controller
         $mensaje = MensajesContainer::difusionMarketing();
 
         // Envío, en segundo plano e iterativo, de emails con certificados.
-        if ((isset($request->enviarEmail)) && ($request->enviarEmail == true)) {
+        if ($request->filled('enviarEmail') && $request->boolean('enviarEmail')) {
             $tarea = new EnviarEmailJob($curso, $mensaje, $listado);
             dispatch($tarea);
         }
@@ -89,7 +94,67 @@ class DifusionController extends Controller
         return redirect()->route('administrarCertificados');
     }
 
-    public function generarCertificadosPorCurso()
+    public function enviarCertificadoPorAlumno (Request $request)
+    {
+        // Validar datos de alumno. Si no hay problemas, se guardará en la base de datos.
+        $alumnoModel = new Alumno();
+        $alumno = $request->alumno;
+        $alumnoValidado = $alumnoModel->prepararCargaAlumno($alumno);
+
+        if (!empty($alumnoValidado['error'])) {
+            return redirect()->route('generarCertificadoPorAlumno')->withErrors($alumnoValidado['error']);
+        }
+
+        $alumnoModel->cargarAlumno($alumnoValidado);
+        $alumnoValidado = (object) $alumnoValidado;
+        $idAlumno = Alumno::obtenerIdAlumnoPorDocumento($alumnoValidado->documento);
+
+        // Validar datos de curso. Si no hay problemas, se guardará en la base de datos.
+        $datosCurso = Curso::validarYCrearCurso($request);
+
+        if (!empty($datosCurso['errores_de_validacion'])) {
+            return redirect()->route('generarCertificadoPorAlumno')->withErrors($datosCurso['errores_de_validacion']);
+        }
+
+        // Determinar si el certificado deberá incluir firmas.
+        $tieneFirmas = false;
+        if ($request->filled('tieneFirmas') && $request->boolean('tieneFirmas')) {
+            $tieneFirmas = $request->tieneFirmas;
+        }
+
+        // Generar certificado PDF. Después, guardar en la base de datos.
+        $rutaCompleta = $this->generarCertificadoCursoAlumno($datosCurso->toArray(), $alumnoValidado, $tieneFirmas);
+        $certificadoModel = new Certificado();
+        $certificadoModel->crearOActualizarCertificados([0 =>
+                                                             ['idAlumno' => $idAlumno,
+                                                             'directorioCompleto' => $rutaCompleta]
+                                                         ],
+                                                          $datosCurso->id);
+
+        // Enviar email con mensaje de marketing y certificado adjunto. Luego, registrar en la base de datos el envío
+        // del email.
+        $mensaje = MensajesContainer::difusionMarketing();
+
+        if ($request->filled('enviarEmail') && $request->boolean('enviarEmail')) {
+            $resultado = MailTec::EnviarMailCertificados($alumnoValidado, $datosCurso, $mensaje);
+
+            if ($resultado) {
+                $mailEnviado = new MailEnviado();
+                $mailEnviado->guardarEmailEnviado($alumnoValidado->documento, $datosCurso->id);
+            }
+        }
+
+        return redirect()->route('administrarCertificados');
+    }
+
+    public function generarCertificadoPorAlumno ()
+    {
+        $titulo = "Certificado por alumno";
+        $programas = ProgramasContainer::listar();
+        return view("difusion.enviarCertificadoPorAlumno", compact('programas','titulo'));
+    }
+
+    public function generarCertificadosPorCurso ()
     {
         $titulo = "Certificados de cursos";
         $cursos = Curso::all();
