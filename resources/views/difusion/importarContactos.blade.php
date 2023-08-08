@@ -1,5 +1,5 @@
 <div class="content padding-total-10px">
-    <form action="{{route('difusion.EnviarCertificados')}}" method="POST" enctype='multipart/form-data'>
+    <form action="{{route('enviarCertificados')}}" method="POST" enctype='multipart/form-data'>
         @csrf
         <div>
             @if (isset($datos['nombre']))

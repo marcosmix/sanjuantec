@@ -1,6 +1,6 @@
 @extends('base')
 @section('content')
-<form action="{{route('difusion.EnviarCertificados')}}" method="POST" enctype='multipart/form-data'>
+<form action="{{ route('enviarCertificados') }}" method="POST" enctype='multipart/form-data'>
     <div class="div-borde-redondeado padding-total-10px">
         @csrf
         <div>
