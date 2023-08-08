@@ -71,6 +71,7 @@ class Alumno extends Model
     public function prepararCargaAlumno ($alumno)
     {
         static $numeroFila = 1; // Contador de filas.
+
         $alumno = [
                 'nombre' => mb_convert_case($alumno[0], MB_CASE_TITLE, 'UTF-8'),
                 'apellido' => mb_convert_case($alumno[1], MB_CASE_TITLE, 'UTF-8'),
@@ -193,20 +194,16 @@ class Alumno extends Model
 
     public function cargarAlumno (array $alumno)
     {
-        $accionFinal = "N/A";
-
         try {
             // Intentar encontrar el registro por 'documento'. Actualizar registro.
             $alumnoExistente = self::where('documento', $alumno['documento'])->firstOrFail();
-            $alumnoExistente->update($alumno);
-            $accionFinal = "Registro actualizado.";
+            $resultado = $alumnoExistente->update($alumno);
         } catch (ModelNotFoundException $exception) {
             // No se encontró ningún registro con el número de 'documento'. Se creará un nuevo registro.
-            self::create($alumno);
-            $accionFinal = "Nuevo registro creado.";
+            $resultado = self::create($alumno);
         }
 
-        return $accionFinal;
+        return $resultado;
     /**
     * Este método se encarga de cargar un alumno en el sistema.
     * Recibe como parámetro una matriz de alumnos.
