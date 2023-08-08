@@ -44,7 +44,7 @@ class CertificadosMail extends Mailable
                 'mime' => 'application/pdf'
             ]);
 
-        return;
+        return true;
     }
 
     public function nombreArchivoPdfEmail ($curso, $estudiante)
