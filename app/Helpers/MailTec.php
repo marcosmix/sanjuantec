@@ -13,7 +13,7 @@ class MailTec
     {
         $email = $estudiante->email;
 
-        Mail::to($email)->send(
+        return Mail::to($email)->send(
             new CertificadosMail($estudiante, $curso, $mensajes)
         );
     }
