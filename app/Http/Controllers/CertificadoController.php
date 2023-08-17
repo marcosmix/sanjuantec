@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Imports\EstudiantesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use App\Models\Alumno;
+use App\Models\Certificado;
 use App\Models\Curso;
+use App\Models\MailEnviado;
 use App\Helpers\gpdf;
 use App\Helpers\rutas;
 use App\Imports\CertificadosEspImport;
@@ -25,7 +29,16 @@ class CertificadoController extends Controller
     public function administrarCertificados ()
     {
         $titulo = "Certificados Generados";
-        return view("certificados.administrarCertificados", compact("titulo"));
+        $datosCertificados = Certificado::obtenerCertificadosYMails();
+        $cantidadElementos = $datosCertificados->count();
+        return view("certificados.administrarCertificados", compact("cantidadElementos","datosCertificados","titulo"));
+    /**
+     * Este método controlador obtiene datos de certificados y correos electrónicos para ser mostrados en la tabla
+     * de la vista de administración y control de certificados y correos electrónicos.
+     *
+     * @author Leandro Brizuela
+     * @return \Illuminate\Contracts\View\View La vista blade que muestra los datos.
+     */
     }
 
     public function generarCertificadoJam(Request $request)
