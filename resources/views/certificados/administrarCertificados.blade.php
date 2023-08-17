@@ -28,11 +28,6 @@
                 <th>
                     <span class="cursor-apuntador flecha-arriba">&#9650;</span>
                     <span class="cursor-apuntador flecha-abajo">&#9660;</span>
-                    Estado
-                 </th>
-                <th>
-                    <span class="cursor-apuntador flecha-arriba">&#9650;</span>
-                    <span class="cursor-apuntador flecha-abajo">&#9660;</span>
                     Enviado
                 </th>
                 <th></th>
@@ -40,46 +35,32 @@
             </tr>
         </thead>
         <tbody>
+        @for ($i = 1; $i < $cantidadElementos; $i++)
+            @php $certificado = $datosCertificados[$i]; @endphp
             <tr>
-                <td>1</td>
-                <td>Nombre</td>
-                <td>Apellido</td>
-                <td>Curso</td>
-                <td><div class="circulo circulo-verdadero"></div></td>
-                <td><div class="circulo circulo-verdadero"></div></td>
-                <td><a class="boton-2 boton-ver">Ver</a></td>
+                <td>{{ $i }}</td>
+                <td>{{ $certificado->nombreAlumno }}</td>
+                <td>{{ $certificado->apellidoAlumno }}</td>
+                <td>{{ $certificado->nombreCurso }}</td>
+                <td>
+                    <div class="circulo @if($certificado->tieneMailEnviado == 1)
+                                            circulo-verdadero
+                                        @else circulo-falso
+                                        @endif">
+                    </div>
+                </td>
+                <td>
+                   <a class="boton-2 boton-ver"
+                       data-documentoalumno="{{ $certificado->documentoAlumno }}"
+                       data-nombrecurso="{{ $certificado->nombreCurso }}"
+                       href="#"
+                    >
+                        Ver
+                    </a>
+                </td>
                 <td><a class="boton-2 boton-enviar">Enviar</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Nombre</td>
-                <td>Apellido</td>
-                <td>Curso</td>
-                <td><div class="circulo circulo-verdadero"></div></td>
-                <td><div class="circulo circulo-verdadero"></div></td>
-                <td><a class="boton-2 boton-ver">Ver</a></td>
-                <td><a class="boton-2 boton-enviar">Enviar</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Nombre</td>
-                <td>Apellido</td>
-                <td>Curso</td>
-                <td><div class="circulo circulo-falso"></div></td>
-                <td><div class="circulo circulo-falso"></div></td>
-                <td><a class="boton-2 boton-ver">Ver</a></td>
-                <td><a class="boton-2 boton-enviar">Enviar</a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Nombre</td>
-                <td>Apellido</td>
-                <td>Curso</td>
-                <td><div class="circulo circulo-verdadero"></div></td>
-                <td><div class="circulo circulo-verdadero"></div></td>
-                <td><a class="boton-2 boton-ver">Ver</a></td>
-                <td><a class="boton-2 boton-enviar">Enviar</a></td>
-            </tr>
+        @endfor
         </tbody>
         </tr>
     </table>
@@ -87,4 +68,11 @@
 <div class="centrar-texto">
     <button type="submit" class="boton boton-alerta margen-superior-60px">Enviar todos los certificados</button>
 </div>
-  @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const botonVer = new Boton('boton-ver', { verPdf: true });
+        botonVer.verPdf();
+    });
+</script>
+@endsection
