@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Alumno;
+use App\Models\Curso;
+use App\Models\MailEnviado;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -119,5 +121,35 @@ class Certificado extends Model
             ->value('id');
 
         return $idCertificado;
+    }
+
+    public static function obtenerCertificadosYMails()
+    {
+        return self::leftJoin('mails_enviados', 'certificados.id', '=', 'mails_enviados.id_certificado')
+            ->leftJoin('alumnos_admin', 'alumnos_admin.id', '=', 'certificados.id_alumno')
+            ->leftJoin('cursos', 'cursos.id', '=', 'certificados.id_curso')
+            ->select([
+                'alumnos_admin.nombre as nombreAlumno',
+                'alumnos_admin.apellido as apellidoAlumno',
+                'alumnos_admin.documento as documentoAlumno',
+                'cursos.nombre as nombreCurso',
+                DB::raw('IF(mails_enviados.id_certificado IS NOT NULL, 1, 0) as tieneMailEnviado'),
+                DB::raw('MAX(mails_enviados.created_at) as ultimoMailEnviado')
+            ])
+            ->groupBy('certificados.id')
+            ->orderBy('ultimoMailEnviado')
+            ->get();
+    /**
+     * Obtiene los certificados y correos electrónicos asociados a ellos desde la base de datos.
+     *
+     * Este método realiza una consulta en la base de datos para obtener información relevante
+     * de certificados y correos electrónicos asociados a ellos. Los datos incluyen el nombre,
+     * apellido y documento del alumno, el nombre del curso, la indicación de si se ha enviado un
+     * correo electrónico relacionado con el certificado y la fecha del último correo enviado.
+     * @author Leandro Brizuela
+     * @return \Illuminate\Support\Collection Una colección de objetos con la información de certificados
+     * y correos electrónicos.
+     * @throws \Exception Si ocurre algún error durante la consulta a la base de datos.
+     */
     }
 }
