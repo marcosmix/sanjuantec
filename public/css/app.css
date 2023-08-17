@@ -10,8 +10,6 @@ body {
 .centrar-tabla {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 40vh; /* Ajustar la altura deseada. */
 }
 
 .centrar-texto {
@@ -392,7 +390,9 @@ table.tabla-certificados tbody td {
 table.tabla-certificados thead {
     background: #B06762;
     display: table-row-group;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 table.tabla-certificados thead th {
