@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Certificado;
+use App\Models\MailEnviado;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
