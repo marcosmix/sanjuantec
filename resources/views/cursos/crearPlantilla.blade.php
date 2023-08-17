@@ -25,11 +25,11 @@
 </form>
 
 <div class="centrar-texto">
-    <button id="boton-volver" type="submit" class="boton boton-aviso">Volver</button>
+    <button class="boton boton-aviso boton-volver" type="submit">Volver</button>
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const botonVolver = new Boton('boton-volver');
+        const botonVolver = new Boton('boton-volver', { volver: true} );
         botonVolver.volver();
     });
 </script>
