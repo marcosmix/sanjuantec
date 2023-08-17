@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Certificado;
 use App\container\ProgramasContainer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
