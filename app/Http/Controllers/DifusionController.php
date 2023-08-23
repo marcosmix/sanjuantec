@@ -147,6 +147,34 @@ class DifusionController extends Controller
         return redirect()->route('administrarCertificados');
     }
 
+    public function enviarCertificadoPorMetodoAjax (Request $request)
+    {
+         $curso = ['id' => $request->idCurso, 'nombre' => $request->nombreCurso];
+         $alumno = new Alumno();
+         $alumno->nombre = $request->nombreAlumno;
+         $alumno->apellido = $request->apellidoAlumno;
+         $alumno->documento = $request->documentoAlumno;
+         $alumno->email = $request->emailAlumno;
+         $mensaje = MensajesContainer::difusionMarketing();
+
+         MailTec::EnviarMailCertificados(
+                        $alumno,
+                        $curso,
+                        $mensaje
+                  );
+         return true;
+    /**
+     * Envía un certificado por medio de una solicitud Ajax.
+     *
+     * Este método se encarga de recibir una solicitud Ajax que contiene los datos del curso y del alumno,
+     * y utiliza la clase MailTec para enviar un correo electrónico con un certificado al alumno.
+     *
+     * @param Request $request Los datos de la solicitud Ajax.
+     * @return bool Devuelve verdadero después de completar el proceso de envío.
+     * @author Leandro Brizuela.
+     */
+    }
+
     public function generarCertificadoPorAlumno ()
     {
         $titulo = "Certificado por alumno";
