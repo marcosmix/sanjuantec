@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Menú Administrar certificados de cursos. ↓
     Route::get('/certificados/administrar', [CertificadoController::class, 'administrarCertificados'])->name('administrarCertificados');
+    Route::post('certificados/enviarEmail', [DifusionController::class, 'enviarCertificadoPorMetodoAjax'])->name('enviarCertificadoPorMetodoAjax');
 
     // Ruta al controlador del método para visualizar un archivo PDF. ↓
     Route::get('/mostrarPdf/{documento}/{nombreCurso}', [PdfController::class, 'mostrarPdf'])->name('mostrarPdf');
