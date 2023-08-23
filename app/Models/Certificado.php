@@ -132,6 +132,8 @@ class Certificado extends Model
                 'alumnos_admin.nombre as nombreAlumno',
                 'alumnos_admin.apellido as apellidoAlumno',
                 'alumnos_admin.documento as documentoAlumno',
+                'alumnos_admin.email as emailAlumno',
+                'cursos.id as idCurso',
                 'cursos.nombre as nombreCurso',
                 DB::raw('IF(mails_enviados.id_certificado IS NOT NULL, 1, 0) as tieneMailEnviado'),
                 DB::raw('MAX(mails_enviados.created_at) as ultimoMailEnviado')
@@ -144,8 +146,9 @@ class Certificado extends Model
      *
      * Este método realiza una consulta en la base de datos para obtener información relevante
      * de certificados y correos electrónicos asociados a ellos. Los datos incluyen el nombre,
-     * apellido y documento del alumno, el nombre del curso, la indicación de si se ha enviado un
-     * correo electrónico relacionado con el certificado y la fecha del último correo enviado.
+     * apellido, documento y correo electrónico del alumno, el identificador y nombre del curso,
+     * la indicación de si se ha enviado un correo electrónico relacionado con el certificado y
+     * la fecha del último correo enviado.
      * @author Leandro Brizuela
      * @return \Illuminate\Support\Collection Una colección de objetos con la información de certificados
      * y correos electrónicos.
