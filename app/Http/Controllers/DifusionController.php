@@ -17,7 +17,6 @@ use App\Models\MailEnviado;
 use App\container\MensajesContainer;
 use App\container\ProgramasContainer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -149,28 +148,40 @@ class DifusionController extends Controller
 
     public function enviarCertificadoPorMetodoAjax (Request $request)
     {
-         $curso = ['id' => $request->idCurso, 'nombre' => $request->nombreCurso];
-         $alumno = new Alumno();
-         $alumno->nombre = $request->nombreAlumno;
-         $alumno->apellido = $request->apellidoAlumno;
-         $alumno->documento = $request->documentoAlumno;
-         $alumno->email = $request->emailAlumno;
-         $mensaje = MensajesContainer::difusionMarketing();
+        try {
+            $curso = ['id' => $request->idCurso, 'nombre' => $request->nombreCurso];
+            $alumno = new Alumno();
+            $alumno->nombre = $request->nombreAlumno;
+            $alumno->apellido = $request->apellidoAlumno;
+            $alumno->documento = $request->documentoAlumno;
+            $alumno->email = $request->emailAlumno;
+            $mensaje = MensajesContainer::difusionMarketing();
 
-         MailTec::EnviarMailCertificados(
-                        $alumno,
-                        $curso,
-                        $mensaje
-                  );
-         return true;
+            MailTec::EnviarMailCertificados($alumno, $curso, $mensaje);
+            $mailEnviado = new MailEnviado();
+            $mailEnviado->guardarEmailEnviado($alumno->documento, $curso['id']);
+
+            return response()->json([
+                'estado' => true,
+                'mensaje' => 'El proceso de envío del email ha sido completado exitósamente.',
+                'alumno' => $alumno,
+                'curso' => $curso
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['estado' => false, 'mensaje' => $e->getMessage()]);
+        }
+
     /**
      * Envía un certificado por medio de una solicitud Ajax.
      *
      * Este método se encarga de recibir una solicitud Ajax que contiene los datos del curso y del alumno,
-     * y utiliza la clase MailTec para enviar un correo electrónico con un certificado al alumno.
+     * y utiliza la clase MailTec para enviar un correo electrónico con un certificado al alumno. También registra
+     * en la base de datos el envío del correo electrónico.
      *
-     * @param Request $request Los datos de la solicitud Ajax.
-     * @return bool Devuelve verdadero después de completar el proceso de envío.
+     * @param Request $request Los datos de la solicitud Ajax que incluyen información del curso y del alumno.
+     * @return \Illuminate\Http\JsonResponse Una respuesta JSON que indica el estado del proceso de envío.
+     * @throws \Exception Si ocurre alguna excepción durante el proceso de envío del correo.
+     *
      * @author Leandro Brizuela.
      */
     }
