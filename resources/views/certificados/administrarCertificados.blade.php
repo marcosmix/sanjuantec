@@ -1,5 +1,7 @@
 @extends('base')
 @section('content')
+<!-- Mensaje de estado del envío de email. -->
+<div class="centrar-texto" id="estado-email"></div>
 <!-- Tabla de administración de certificados.  -->
 <div class="centrar-tabla">
     <table class="tabla-certificados">
@@ -50,15 +52,25 @@
                     </div>
                 </td>
                 <td>
-                   <a class="boton-2 boton-ver"
+                    <a class="boton-2 boton-ver"
                        data-documentoalumno="{{ $certificado->documentoAlumno }}"
                        data-nombrecurso="{{ $certificado->nombreCurso }}"
-                       href="#"
-                    >
-                        Ver
+                       href="#">
+                       Ver
                     </a>
                 </td>
-                <td><a class="boton-2 boton-enviar">Enviar</a></td>
+                <td>
+                    <a class="boton-2 boton-enviar"
+                       data-nombrealumno="{{ $certificado->nombreAlumno }}"
+                       data-apellidoalumno="{{ $certificado->apellidoAlumno }}"
+                       data-documentoalumno="{{ $certificado->documentoAlumno }}"
+                       data-emailalumno="{{ $certificado->emailAlumno }}"
+                       data-idcurso="{{ $certificado->idCurso }}"
+                       data-nombrecurso="{{ $certificado->nombreCurso }}"
+                       href="#">
+                       Enviar
+                    </a>
+                </td>
             </tr>
         @endfor
         </tbody>
@@ -68,11 +80,20 @@
 <div class="centrar-texto">
     <button type="submit" class="boton boton-alerta margen-superior-60px">Enviar todos los certificados</button>
 </div>
-
 <script>
+    // Boton.js
     document.addEventListener("DOMContentLoaded", function() {
         const botonVer = new Boton('boton-ver', { verPdf: true });
         botonVer.verPdf();
+    });
+</script>
+<script src="/js/Ajax.js"></script>
+<script>
+    // Funcionalidad Ajax para envíar email.
+    var enviarCertificadoUrl = '{{ route('enviarCertificadoPorMetodoAjax') }}';
+    $(document).ready(function() {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        enviarEmail(csrfToken);
     });
 </script>
 @endsection
