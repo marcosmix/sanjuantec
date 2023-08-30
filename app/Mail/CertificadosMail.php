@@ -10,6 +10,22 @@ use App\Helpers\rutas;
 
 class CertificadosMail extends Mailable
 {
+    /**
+     * Descripción: CertificadosMail que realiza el envío de emails utilizando los datos del curso y del alumno.
+     *
+     * @param array $curso Una matriz que contiene información del curso.
+     *        - 'id' (int): El identificador único del curso.
+     *        - 'nombre' (string): El nombre del curso.
+     * @param Alumno $estudiante Un objeto Alumno que contiene información del estudiante.
+     *        - nombre (string): El nombre del alumno.
+     *        - apellido (string): El apellido del alumno.
+     *        - documento (string): El número de documento del alumno.
+     *        - email (string): La dirección de correo electrónico del alumno.
+     * @param string $mensaje El mensaje que se utilizará en el email.
+     * @return bool true
+     * @author Leandro Brizuela
+     */
+
     use Queueable, SerializesModels, rutas;
 
     public $estudiante, $curso, $mensaje;
