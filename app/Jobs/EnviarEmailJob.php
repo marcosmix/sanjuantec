@@ -12,10 +12,26 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 class EnviarEmailJob implements ShouldQueue
 {
+    /**
+     * Descripción: EnviarEmailJob que realiza el envío de emails en segundo plano,
+     * utilizando los datos del curso y del alumno.
+     *
+     * @param array $curso Una matriz que contiene información del curso.
+     *        - 'id' (int): El identificador único del curso.
+     *        - 'nombre' (string): El nombre del curso.
+     * @param Alumno $listado Una matriz de objetos Alumno que contienen información de estudiantes.
+     *        - nombre (string): El nombre del alumno.
+     *        - apellido (string): El apellido del alumno.
+     *        - documento (string): El número de documento del alumno.
+     *        - email (string): La dirección de correo electrónico del alumno.
+     * @param string $mensaje El mensaje que se utilizará en el email.
+     * @return bool true
+     * @author Leandro Brizuela
+     */
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $listado;
