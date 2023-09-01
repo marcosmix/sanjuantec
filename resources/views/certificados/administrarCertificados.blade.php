@@ -37,10 +37,10 @@
             </tr>
         </thead>
         <tbody>
-        @for ($i = 1; $i < $cantidadElementos; $i++)
+        @for ($i = 0; $i < $cantidadElementos; $i++)
             @php $certificado = $datosCertificados[$i]; @endphp
             <tr>
-                <td>{{ $i }}</td>
+                <td>{{ $i+1 }}</td>
                 <td>{{ $certificado->nombreAlumno }}</td>
                 <td>{{ $certificado->apellidoAlumno }}</td>
                 <td>{{ $certificado->nombreCurso }}</td>
@@ -77,9 +77,21 @@
         </tr>
     </table>
 </div>
+
+<!-- Botón de envío masivo de emails. -->
 <div class="centrar-texto">
-    <button type="submit" class="boton boton-alerta margen-superior-60px">Enviar todos los certificados</button>
+    <button class="boton boton-alerta margen-superior-60px" id="enviar-certificados" type="button" >Enviar todos los certificados</button>
 </div>
+
+<!-- Modal para confirmar envío masivo de emails. -->
+<div id="modal-de-confirmacion" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar">&times;</span>
+        <p>¿Está seguro de que quiere enviar todos los certificados?</p>
+        <button id="confirmar-envio" class="boton-confirmar">Confirmar</button>
+    </div>
+</div>
+
 <script>
     // Boton.js
     document.addEventListener("DOMContentLoaded", function() {
@@ -89,10 +101,26 @@
 </script>
 <script src="/js/Ajax.js"></script>
 <script>
-    // Funcionalidad Ajax para envíar email.
+    // Funcionalidades Ajax para envíar certificado/s por email.
     var enviarCertificadoUrl = '{{ route('enviarCertificadoPorMetodoAjax') }}';
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
     $(document).ready(function() {
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var datosCertificados = @json($datosCertificados);
+
+        $('#enviar-certificados').on('click', function() {
+            $('#modal-de-confirmacion').css('display', 'block');
+        });
+
+        $('#confirmar-envio').on('click', function() {
+            $('#modal-de-confirmacion').css('display', 'none');
+            enviarTodosLosEmails(csrfToken, datosCertificados);
+        });
+
+        $('.cerrar').on('click', function() {
+            $('#modal-de-confirmacion').css('display', 'none');
+        });
+
         enviarEmail(csrfToken);
     });
 </script>
