@@ -8,6 +8,7 @@ use App\Helpers\rutas;
 use App\Imports\CursatecImport;
 use App\Imports\CursatecImportFULL;
 use App\Imports\EstudiantesImport;
+use App\Jobs\EnviarEmailAjaxJob;
 use App\Jobs\EnviarEmailJob;
 use App\Jobs\ProcesarCertificado;
 use App\Models\Alumno;
@@ -181,8 +182,57 @@ class DifusionController extends Controller
      * @param Request $request Los datos de la solicitud Ajax que incluyen información del curso y del alumno.
      * @return \Illuminate\Http\JsonResponse Una respuesta JSON que indica el estado del proceso de envío.
      * @throws \Exception Si ocurre alguna excepción durante el proceso de envío del correo.
-     *
+
      * @author Leandro Brizuela.
+     */
+    }
+
+    public function enviarTodosLosCertificadosPorAjax (Request $request)
+    {
+        $datos = $request->json()->all();
+
+        if (!is_array($datos) || empty($datos)) {
+            return response()->json(['estado' => false, 'mensaje' => 'Error: Datos no válidos.']);
+        }
+
+        foreach ($datos as $certificado) {
+            $indicesNoValidos = (!is_array($certificado) || empty($certificado)
+            || !isset($certificado['nombreAlumno'], $certificado['apellidoAlumno'], $certificado['documentoAlumno'],
+                      $certificado['emailAlumno'], $certificado['idCurso'], $certificado['nombreCurso']));
+            if ($indicesNoValidos) {
+                return response()->json(['estado' => false, 'mensaje' => 'Error: Datos no válidos.']);
+            }
+        }
+
+        $tarea = new EnviarEmailAjaxJob($datos);
+        dispatch($tarea);
+
+        return response()->json([
+            'estado' => true,
+            'mensaje' => 'El proceso de envío del emails ha sido iniciado y se está ejecutando en segundo plano.',
+        ]);
+    /**
+     * Envía certificados a través de una solicitud Ajax.
+     *
+     * Este método se encarga de recibir una solicitud Ajax que contiene información de certificados en formato JSON.
+     * Verifica la validez de los datos recibidos y, si son válidos, inicia el proceso de envío de correos electrónicos
+     * en segundo plano utilizando la clase "EnviarEmailAjaxJob". Se retorna una respuesta JSON indicando el estado del proceso.
+     *
+     * @param Request $request La solicitud Ajax que contiene los datos de los certificados.
+     * Descripción: Estructura de datos que contiene información de un certificado para enviar por correo.
+     *
+     * @typedef {Object} $request Objeto que representa un certificado para enviar por correo.
+     * @property {string} nombreAlumno El nombre del alumno que recibirá el certificado.
+     * @property {string} apellidoAlumno El apellido del alumno que recibirá el certificado.
+     * @property {string} documentoAlumno El número de documento del alumno.
+     * @property {string} emailAlumno La dirección de correo electrónico del alumno.
+     * @property {number} idCurso El identificador único del curso asociado al certificado.
+     * @property {string} nombreCurso El nombre del curso asociado al certificado.
+     * @property {number} tieneMailEnviado Indicador de si el correo ha sido enviado anteriormente (0 = No, 1 = Sí).
+     * @property {string} ultimoMailEnviado La fecha y hora del último correo enviado en formato "YYYY-MM-DD HH:MM:SS".
+     * @return \Illuminate\Http\JsonResponse Una respuesta JSON que indica el estado del proceso de envío de correos electrónicos.
+     *
+     * @author Leandro Brizuela
      */
     }
 
