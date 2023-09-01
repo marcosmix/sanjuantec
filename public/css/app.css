@@ -69,6 +69,19 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+.boton-confirmar {
+    background-color: #157347;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+}
+
 /* Botones con colores personalizados */
 .boton-primario {
     background-color: #007bff;
@@ -110,6 +123,7 @@ input[type="checkbox"] {
 .boton-secundario:hover,
 .boton-exito:hover,
 .boton-aviso:hover,
+.boton-confirmar:hover,
 .boton-alerta:hover,
 .boton-ver:hover,
 .boton-enviar:hover {
@@ -121,6 +135,7 @@ input[type="checkbox"] {
 .boton-secundario:active,
 .boton-exito:active,
 .boton-aviso:active,
+.boton-confirmar:active,
 .boton-alerta:active,
 .boton-ver:active,
 .boton-enviar:active {
@@ -437,4 +452,33 @@ table.tabla-certificados thead::before {
 .flecha-abajo {
   font-size: 15px;
 }
+
+/* Estilos de modal de confirmación de envío masivo de emails en la vista de administración de certificados. */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-contenido {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    text-align: center;
+    width: 50%;
+}
+
+.cerrar {
+    cursor: pointer;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
 
