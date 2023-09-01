@@ -74,5 +74,12 @@ class EnviarEmailJob implements ShouldQueue
                 $mailEnviado->guardarEmailEnviado($datos->documento, $cursoDatos['id']);
             }
         }
+    /**
+     * Proceso en segundo plano para enviar correos electrónicos con certificados.
+     *
+     * Este método maneja el proceso en segundo plano para enviar correos electrónicos con certificados a múltiples destinatarios.
+     * Utiliza un tamaño de lote para dividir los datos en grupos más pequeños y luego itera a través de cada lote para enviar
+     * correos electrónicos individualmente. Cada correo electrónico contiene información del alumno y del curso, así como un mensaje predefinido.
+     */
     }
 }
