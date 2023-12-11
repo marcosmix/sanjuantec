@@ -45,7 +45,7 @@ class EstudiantesImport implements ToModel, WithValidation
                   *      Ejemplos: +541112345678, 005402234987654, +54290115415233
                   */
             ], // Teléfono
-            'email' => 'required|email' // E-mail
+            'email' => '' // E-mail
         ];
     /**
      * Esta función utiliza las reglas de validación que son empleadas por la función model().
@@ -141,7 +141,7 @@ class EstudiantesImport implements ToModel, WithValidation
     {
         // Primera validación: Comprobar extensión del archivo subido.
         $validacion = Validator::make($request->all(), [
-            'contactos' => 'required|file|mimes:xlsx',
+            'contactos' => 'required',
         ]);
 
         if ($validacion->fails()) {

@@ -74,10 +74,9 @@
         }
 
         .datosAlumno {
-            display: flex;
-            /* flex-direction: column; */
-            align-items: center;
-            justify-content: center;
+            /* flex-direction: row;
+            align-items: center; */
+            justify-content: space-evenly;
             width: 70%;
             padding: 1cm 0mm 0 0mm;
             border-bottom: 1px goldenrod solid;
@@ -86,7 +85,6 @@
         }
 
         .datosAlumno__nombre {
-            display: inline;
             font-size: 2.4em;
             font-family: GreatVibes-Regular;
             padding-left: 10mm;
@@ -145,7 +143,7 @@
             <p class="titular" >Curso de {{$datos['curso']['nombre']}}</p>
             <p class="prefijo" >Por el presente certificamos que</p>
             <p class="datosAlumno">
-                <span class="datosAlumno__nombre">{{$datos['estudiante']['nombre']}} {{$datos['estudiante']['apellido']}}</span><br>
+                <span class="datosAlumno__nombre">{{$datos['estudiante']['nombre']}} {{$datos['estudiante']['apellido']}}</span>
                 <span class="datosAlumno__dni"> DNI {{$datos['estudiante']['documento']}}</span>
             </p>
             <section class="contenedor-texto">

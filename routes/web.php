@@ -90,5 +90,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/test_mostrarCursos', [CursosController::class, 'mostrarCursos']);//Obtiene los cursos en Moodle/CursaTec.
 });
 
-require __DIR__.'/auth.php';
+Route::get('/testModelo1',[CertificadoController::class,'testModelo1']);
+
+require __DIR__.'\auth.php';
 

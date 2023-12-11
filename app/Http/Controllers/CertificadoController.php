@@ -143,4 +143,28 @@ class CertificadoController extends Controller
             }
         }
     }
+
+    public function testModelo1(){
+
+        $datos = [
+            'curso' => [
+                'nombre' => 'Instroduccion al desarrollo falopa',
+                'texto' => 'Certifico que le chabon logro el completar el curso',
+                'duracion' =>'3 meses',
+                'bloque' => 'programacion',
+                'fecha' => '21 septiembre de 2023'
+            ],
+            'estudiante' => [
+                'nombre' => 'Marcos',
+                'apellido' => 'Caballero',
+                'documento' =>'35849098'
+            ],
+            'tieneFirmas' => true
+        ];
+
+        
+
+
+        return view("certificados.modelo1",compact('datos'));
+    }
 }

@@ -74,7 +74,7 @@
             display: flex;
             /* flex-direction: column; */
             align-items: center;
-            justify-content: center;
+            justify-content: space-around;
             width: 70%;
             padding: 1cm 0mm 0 0mm;
             border-bottom: 1px goldenrod solid;
@@ -82,7 +82,7 @@
             text-align: center;
        }
        .datosAlumno__nombre{
-            display: inline;
+            display: flex;
             font-size: 2.4em;
            font-family: GreatVibes-Regular;
            padding-left: 10mm;
